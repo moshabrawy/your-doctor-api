@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Admin extends Authenticatable implements JWTSubject
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $fillable = ['name', 'email', 'password', 'avatar', 'gender', 'phone'];
 
 
-      /**
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed

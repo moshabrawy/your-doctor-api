@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('specialty_id')->on('specialties')->references('id')->onDelete('cascade');
             $table->string('bio');
             $table->float('fees');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
