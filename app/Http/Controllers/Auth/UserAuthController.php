@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Models\Address;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -53,13 +54,16 @@ class UserAuthController extends Controller
             'birth_date' => 'required',
             // 'country_id' => 'required|exists:App\Models\Country,id',
             'password' => 'required|string|confirmed',
+            'address' => 'sometimes|required',
+            'state' => 'sometimes|required',
+            'country' => 'sometimes|required',
             'avatar' => 'sometimes|required',
             "avatar.*" => 'sometimes|base64mimes:jpg,png,jpeg|base64max:5128'
         ]);
         if ($validation->fails()) {
             return response()->json(['error' => $validation->errors(), 'status_code' => 400], 400);
         } else {
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
@@ -67,8 +71,16 @@ class UserAuthController extends Controller
                 'gender' => $request->gender,
                 'birth_date' => Carbon::parse($request->birth_date)->format('Y-m-d'),
                 'password' => Hash::make($request->password),
-                // 'avatar' => $request->avatar,
+                'avatar' => $request->hasFile('avatar') ? 'Done' : 'no',
             ]);
+            if (!empty($request->address)) {
+                Address::create([
+                    'user_id' =>  $user->id,
+                    'address' => $request->address,
+                    'state' => $request->state,
+                    'country' => $request->country
+                ]);
+            }
             return response()->json(['message' => 'Success', 'status_code' => 200], 200);
         }
     }
