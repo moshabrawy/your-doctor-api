@@ -14,13 +14,13 @@ jobs:
     steps:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
-        php-version: '8.1'
+        php-version: '8.2'
     - uses: actions/checkout@v3
     - name: FTP Deploy
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
-       server: your-doctor@y.d.moshabrawy.com
-       username: your-doctor
+       server: ftp.moshabrawy.com
+       username: your-doctor@y.d.moshabrawy.com
        password: wHF1~S.P0WKn
        port: 21
 #     - name: Copy .env
