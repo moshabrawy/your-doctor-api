@@ -19,7 +19,7 @@ jobs:
     - name: FTP Deploy
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
-       server: y.d.moshabrawy.com
+       server: your-doctor@y.d.moshabrawy.com
        username: your-doctor
        password: wHF1~S.P0WKn
        port: 21
