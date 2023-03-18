@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female']);
             $table->string('phone')->nullable();
             $table->date('birth_date')->nullable();
+            $table->integer('verification_code')->nullable()->unique();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
