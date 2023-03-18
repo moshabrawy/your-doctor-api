@@ -25,7 +25,7 @@ class SendOtpMail extends Mailable
     public function build()
     {
         return $this->subject('Your Doctor: Reset Account Password')
-            ->from('support@dalcolc.com')
+            ->from('support@moshabrawy.com')
             ->to($this->data->email)
             ->view('emails.reset_password');
     }
