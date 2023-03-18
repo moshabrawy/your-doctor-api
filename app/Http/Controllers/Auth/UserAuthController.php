@@ -50,15 +50,15 @@ class UserAuthController extends Controller
                 'required',
                 Rule::in(['user', 'doctor']),
             ],
-            'gender' => [Rule::in(['male', 'fmale'])],
-            'birth_date' => 'required',
+            // 'gender' => [Rule::in(['male', 'fmale'])],
+            // 'birth_date' => 'required',
             // 'country_id' => 'required|exists:App\Models\Country,id',
             'password' => 'required|string|confirmed',
-            'address' => 'sometimes|required',
-            'state' => 'sometimes|required',
-            'country' => 'sometimes|required',
-            'avatar' => 'sometimes|required',
-            "avatar.*" => 'sometimes|base64mimes:jpg,png,jpeg|base64max:5128'
+            // 'address' => 'sometimes|required',
+            // 'state' => 'sometimes|required',
+            // 'country' => 'sometimes|required',
+            // 'avatar' => 'sometimes|required',
+            // "avatar.*" => 'sometimes|base64mimes:jpg,png,jpeg|base64max:5128'
         ]);
         if ($validation->fails()) {
             return response()->json(['error' => $validation->errors(), 'status_code' => 400], 400);
@@ -68,19 +68,19 @@ class UserAuthController extends Controller
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'user_type' => $request->user_type === 'user' ? '1' : '0',
-                'gender' => $request->gender,
-                'birth_date' => Carbon::parse($request->birth_date)->format('Y-m-d'),
+                // 'gender' => $request->gender,
+                // 'birth_date' => Carbon::parse($request->birth_date)->format('Y-m-d'),
                 'password' => Hash::make($request->password),
-                'avatar' => $request->hasFile('avatar') ? 'Done' : 'no',
+                // 'avatar' => $request->hasFile('avatar') ? 'Done' : 'no',
             ]);
-            if (!empty($request->address)) {
-                Address::create([
-                    'user_id' =>  $user->id,
-                    'address' => $request->address,
-                    'state' => $request->state,
-                    'country' => $request->country
-                ]);
-            }
+            // if (!empty($request->address)) {
+            //     Address::create([
+            //         'user_id' =>  $user->id,
+            //         'address' => $request->address,
+            //         'state' => $request->state,
+            //         'country' => $request->country
+            //     ]);
+            // }
             return response()->json(['message' => 'Success', 'status_code' => 200], 200);
         }
     }
