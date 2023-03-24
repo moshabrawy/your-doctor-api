@@ -19,7 +19,7 @@ class UserInfoResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'user_type' => $this->user_type,
-            'avatar' => $this->avatar !== null ? asset('assets/images/profile/' . $this->avatar) : asset('assets/images/user.png'),
+            'avatar' => $this->avatar,
             'gender' => $this->gender,
             'phone' => $this->phone,
             'birth_date' => $this->birth_date,

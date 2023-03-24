@@ -16,7 +16,7 @@ trait FilesTrait
         $image_type = $image_type_aux[1];
         $image_base64 = base64_decode($image_parts[1]);
         $file = uniqid() . '.' . $image_type;
-        File::put(public_path() . '/images/' . $path . '/' . $file, $image_base64);
+        File::put(public_path() . '/uploads/images/' . $path . '/' . $file, $image_base64);
         return $file;
     }
 

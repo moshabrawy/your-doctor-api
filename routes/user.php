@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\User\UserInfoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,8 +18,8 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
 Route::group(['middleware' => ['api', 'auth:api', 'userAuth']], function ($router) {
     Route::post('logout', [UserAuthController::class, 'logout']);
-    Route::get('get_profile_data', [UserAuthController::class, 'get_profile_data']);
-
+    Route::get('get_profile_data', [UserInfoController::class, 'get_profile_data']);
+    Route::post('update_user_info', [UserInfoController::class, 'update_user_info']);
 });
 
 // Route::view('reset', 'emails.reset_password');

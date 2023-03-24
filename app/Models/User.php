@@ -33,6 +33,22 @@ class User extends Authenticatable implements JWTSubject
     ];
 
 
+    public function address()
+    {
+        return $this->hasMany(Address::class);
+    }
+
+    public function getAvatarAttribute($avatar)
+    {
+        if ($avatar != '') {
+            return asset('uploads/images/profile/' . $avatar);
+        } else {
+            return asset('assets/images/user.png');
+        }
+    }
+
+
+
     // Rest omitted for brevity
 
     /**

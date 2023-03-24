@@ -3,21 +3,44 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserInfoResource;
 use App\Http\Resources\UserResource;
 use App\Mail\SendOtpMail;
-use App\Models\Address;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 
 class UserAuthController extends Controller
 {
+    public function register(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'phone' => 'required|unique:users',
+            'user_type' => [
+                'required',
+                Rule::in(['user', 'doctor']),
+            ],
+            'password' => 'required|string|confirmed'
+        ]);
+        if ($validation->fails()) {
+            return response()->json(['error' => $validation->errors(), 'status_code' => 400], 400);
+        } else {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'user_type' => $request->user_type === 'user' ? '1' : '0',
+                'password' => Hash::make($request->password),
+            ]);
+            return response()->json(['message' => 'Success', 'status_code' => 200], 200);
+        }
+    }
+
     public function login(Request $request)
     {
         $validation = Validator::make($request->all(), [
@@ -42,58 +65,6 @@ class UserAuthController extends Controller
     {
         auth()->guard('api')->logout();
         return response()->json(['message' => 'Successfully logged out']);
-    }
-
-    public function register(Request $request)
-    {
-        $validation = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'phone' => 'required|unique:users',
-            'user_type' => [
-                'required',
-                Rule::in(['user', 'doctor']),
-            ],
-            // 'gender' => [Rule::in(['male', 'fmale'])],
-            // 'birth_date' => 'required',
-            // 'country_id' => 'required|exists:App\Models\Country,id',
-            'password' => 'required|string|confirmed',
-            // 'address' => 'sometimes|required',
-            // 'state' => 'sometimes|required',
-            // 'country' => 'sometimes|required',
-            // 'avatar' => 'sometimes|required',
-            // "avatar.*" => 'sometimes|base64mimes:jpg,png,jpeg|base64max:5128'
-        ]);
-        if ($validation->fails()) {
-            return response()->json(['error' => $validation->errors(), 'status_code' => 400], 400);
-        } else {
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'user_type' => $request->user_type === 'user' ? '1' : '0',
-                // 'gender' => $request->gender,
-                // 'birth_date' => Carbon::parse($request->birth_date)->format('Y-m-d'),
-                'password' => Hash::make($request->password),
-                // 'avatar' => $request->hasFile('avatar') ? 'Done' : 'no',
-            ]);
-            // if (!empty($request->address)) {
-            //     Address::create([
-            //         'user_id' =>  $user->id,
-            //         'address' => $request->address,
-            //         'state' => $request->state,
-            //         'country' => $request->country
-            //     ]);
-            // }
-            return response()->json(['message' => 'Success', 'status_code' => 200], 200);
-        }
-    }
-
-    public function get_profile_data(Request $request)
-    {
-        $user = User::where('id', auth()->user()->id)->get();
-        $data = UserInfoResource::collection($user);
-        return response()->json(['data' => $data[0], 'status_code' => 200]);
     }
 
     // Reset Password

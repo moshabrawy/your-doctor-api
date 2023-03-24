@@ -10,4 +10,9 @@ class Address extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = ['user_id', 'address', 'state', 'country'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
