@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -32,7 +30,6 @@ class User extends Authenticatable implements JWTSubject
         'remember_token',
     ];
 
-
     public function address()
     {
         return $this->hasMany(Address::class);
@@ -41,12 +38,12 @@ class User extends Authenticatable implements JWTSubject
     public function getAvatarAttribute($avatar)
     {
         if ($avatar != '') {
-            return asset('uploads/images/profile/' . $avatar);
+            return asset('/uploads/images/profile/' . $avatar);
+            // return url('public/uploads/images/profile/' . $avatar);
         } else {
             return asset('assets/images/user.png');
         }
     }
-
 
 
     // Rest omitted for brevity
