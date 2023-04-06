@@ -12,9 +12,65 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
+use Twilio\Rest\Client;
+use Twilio\Exceptions\RestException;
+
 
 class UserAuthController extends Controller
 {
+    public function test_whatsapp(Request $request)
+    {
+        $sid    = "ACfffe9553bfb6f357cf02b16133369b4f";
+        $token  = "0afb4a42c5d9cd0b08bb79010e31aac5";
+        $client = new Client($sid, $token);
+
+        // The recipient's phone number and the message to send
+        $to = 'whatsapp:' . $request->input('recipient');
+        $message = $request->input('message');
+
+        try {
+            // Send the message using the Twilio client
+            $client->messages->create($to, [
+                // 'from' => 'whatsapp:' . config('app.twilio_whatsapp_number'),
+                'from' => 'whatsapp:+14155238886',
+                'body' => $message,
+            ]);
+            return response()->json(['message' => 'Message sent successfully.']);
+        } catch (\Exception $e) {
+            // Log the error message
+            return response()->json(['error' =>  $e->getMessage()]);
+        }
+    }
+    public function test_sms()
+    {
+        $sid    = "ACfffe9553bfb6f357cf02b16133369b4f";
+        $token  = "0afb4a42c5d9cd0b08bb79010e31aac5";
+        $client = new Client($sid, $token);
+        // $message = $client->messages->create(
+        //     'whatsapp:' . '+201014018375',
+        //     array(
+        //         'from' => 'whatsapp:' . '+14155238886',
+        //         'body' => 'Hello Mohamed'
+        //     )
+        // );
+
+        $to = '+201014018375';
+        $message = 'Hello from Twilio!';
+
+        try {
+            // Send the message using the Twilio client
+            $client->messages->create($to, [
+                'body' => $message,
+                "from" => "+15854605989"
+            ]);
+            return response()->json(['msg' => 'Message sent successfully.']);
+        } catch (RestException $e) {
+            // Log the error message
+            error_log('Twilio message sending failed: ' . $e->getMessage());
+            return response()->json(['msg' => 'Message sending failed. Please try again later.', 'error' => $e->getMessage()]);
+        }
+    }
+
     public function register(Request $request)
     {
         $validation = Validator::make($request->all(), [

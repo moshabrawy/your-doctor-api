@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /* User Routes */
+Route::post('sms', [UserAuthController::class, 'test_sms']);
+Route::post('whatsapp', [UserAuthController::class, 'test_whatsapp']);
 
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     //Auth Routes
