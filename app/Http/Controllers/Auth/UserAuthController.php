@@ -109,7 +109,7 @@ class UserAuthController extends Controller
         } else {
             $credentials = request(['email', 'password']);
             if (!$token = auth('api')->attempt($credentials)) {
-                return response()->json(['error' => 'Invalid Credentials'], 401);
+                return response()->json(['error' => 'Invalid Credentials', 'status_code' => 401], 401);
             }
             $user = auth('api')->user();
             $data = new UserResource($user);
