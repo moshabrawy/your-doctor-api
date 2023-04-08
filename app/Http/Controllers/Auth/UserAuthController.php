@@ -84,7 +84,7 @@ class UserAuthController extends Controller
             'password' => 'required|string|confirmed'
         ]);
         if ($validation->fails()) {
-            return response()->json(['error' => $validation->errors(), 'status_code' => 400], 400);
+            return response()->json(['error' => $validation->errors()->first(), 'status_code' => 400], 400);
         } else {
             $user = User::create([
                 'name' => $request->name,
