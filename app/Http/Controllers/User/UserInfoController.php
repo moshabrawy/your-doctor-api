@@ -29,10 +29,11 @@ class UserInfoController extends Controller
         $user = User::find(auth('api')->user()->id);
         if ($user) {
             $validation = Validator::make($request->all(), [
-                'name' => 'sometimes|required|string',
+                'first_name' => 'sometimes|required|string',
+                'last_name' => 'sometimes|required|string',
                 'email' => 'sometimes|required|email|unique:users,email,' . $user->id,
                 'phone' => 'sometimes|required|unique:users,phone,' . $user->id,
-                'gender' => [Rule::in(['male', 'female'])],
+                'gender' => ['sometimes', 'required', Rule::in(['male', 'female'])],
                 'birth_date' => 'sometimes|required',
                 'current_password' => 'sometimes|required|string',
                 'password' => Rule::requiredIf($request->has('current_password')), 'string|confirmed',
@@ -45,7 +46,8 @@ class UserInfoController extends Controller
             if ($validation->fails()) {
                 return response()->json(['error' => $validation->errors(), 'status_code' => 400], 400);
             } else {
-                $user->name = $request->name ?? $user->name;
+                $name = $request->first_name . ' ' . $request->last_name;
+                $user->name = $name ?? $user->name;
                 $user->email = $request->email ?? $user->email;
                 $user->phone = $request->phone ?? $user->phone;
                 $user->gender = $request->gender ?? $user->gender;
