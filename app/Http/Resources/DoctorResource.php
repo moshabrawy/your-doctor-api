@@ -20,7 +20,10 @@ class DoctorResource extends JsonResource
             'avatar' => $this->avatar,
             $this->mergeWhen($request->details == true, function () {
                 return [
-                    'test' => 'Test'
+                    'bio' => $this->doctor_info->bio,
+                    'phone' => $this->phone,
+                    'specialty' => $this->doctor_info->specialty->title,
+                    'fees' => $this->doctor_info->fees
                 ];
             })
         ];

@@ -11,4 +11,8 @@ class Specialty extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = ['title', 'icon', 'brief'];
 
+    public function doctor_info()
+    {
+        return $this->belongsTo(DoctorInfo::class);
+    }
 }

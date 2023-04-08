@@ -35,6 +35,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Address::class);
     }
 
+    public function doctor_info()
+    {
+        return $this->hasOne(DoctorInfo::class);
+    }
+
     public function getAvatarAttribute($avatar)
     {
         if ($avatar != '') {

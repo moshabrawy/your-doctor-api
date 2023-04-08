@@ -3,7 +3,6 @@
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\DoctorInfoController;
 use App\Http\Controllers\User\UserInfoController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /* User Routes */
@@ -25,7 +24,7 @@ Route::group(['middleware' => ['api', 'auth:api', 'userAuth']], function ($route
     Route::get('get_profile_data', [UserInfoController::class, 'get_profile_data']);
     Route::post('update_user_info', [UserInfoController::class, 'update_user_info']);
     Route::get('get_all_doctors', [DoctorInfoController::class, 'get_all_doctors']);
-    Route::get('get_doctor_details', [DoctorInfoController::class, 'get_doctor_details']);
+    Route::post('get_doctor_details', [DoctorInfoController::class, 'get_doctor_details']);
 });
 
 // Route::view('reset', 'emails.reset_password');
