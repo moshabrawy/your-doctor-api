@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('user_type', [0, 1]); //0 => Doctor , 1 => Patient
+            $table->enum('user_type', [0, 1]); //0 => Doctor , 1 => User Patient
             $table->string('avatar')->nullable();
             $table->enum('gender', ['male', 'female']);
             $table->string('phone')->nullable();
