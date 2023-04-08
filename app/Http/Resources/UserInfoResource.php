@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,15 +17,17 @@ class UserInfoResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'full_name' => $this->name,
+            "first_name" => explode(" ", $this->name)[0],
+            "last_name" => explode(" ", $this->name, 2)[1] ?? '',
             'email' => $this->email,
-            'user_type' => $this->user_type,
+            'user_type' => $this->user_type === 0 ? 'Doctor' : 'User',
             'avatar' => $this->avatar,
             'gender' => $this->gender,
             'phone' => $this->phone,
-            'birth_date' => $this->birth_date,
+            'birth_date' => Carbon::parse($this->birth_date)->format('d, M, Y'),
             $this->mergeWhen($this->address, function () {
-                return ["address" =>  AddressResource::collection($this->address)];
+                return ["addresses" =>  AddressResource::collection($this->address)];
             }),
         ];
     }

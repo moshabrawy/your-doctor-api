@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /* User Routes */
+
 Route::post('sms', [UserAuthController::class, 'test_sms']);
 Route::post('whatsapp', [UserAuthController::class, 'test_whatsapp']);
 
@@ -24,6 +25,7 @@ Route::group(['middleware' => ['api', 'auth:api', 'userAuth']], function ($route
     Route::get('get_profile_data', [UserInfoController::class, 'get_profile_data']);
     Route::post('update_user_info', [UserInfoController::class, 'update_user_info']);
     Route::get('get_all_doctors', [DoctorInfoController::class, 'get_all_doctors']);
+    Route::get('get_doctor_details', [DoctorInfoController::class, 'get_doctor_details']);
 });
 
 // Route::view('reset', 'emails.reset_password');
