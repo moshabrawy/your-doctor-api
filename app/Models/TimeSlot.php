@@ -11,4 +11,8 @@ class TimeSlot extends Model
 
     protected $fillable = ['user_id', 'address_id', 'day_en', 'day_ar', 'start_time', 'end_time'];
 
+    public function doctor_info()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }
