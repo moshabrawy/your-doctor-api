@@ -18,11 +18,11 @@ class DoctorResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'avatar' => $this->avatar,
+            'specialty' => $this->doctor_info->specialty->title,
             $this->mergeWhen($request->details == true, function () {
                 return [
                     'bio' => $this->doctor_info->bio,
                     'phone' => $this->phone,
-                    'specialty' => $this->doctor_info->specialty->title,
                     'fees' => $this->doctor_info->fees,
                     'slots' => TimeSlotResource::collection($this->time_slot)
                 ];
