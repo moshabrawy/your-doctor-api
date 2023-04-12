@@ -21,7 +21,7 @@ class TimeSlotController extends Controller
             return response()->json(['error' => 'Unauthorized!', 'status_code' => 401]);
         }
         $validation = Validator::make($request->all(), [
-            'address_id' => 'required',
+            // 'address_id' => 'required',
             'day_en' => 'required',
             'day_ar' => 'required',
             'start_time' => 'required',
@@ -31,13 +31,13 @@ class TimeSlotController extends Controller
         if ($validation->fails()) {
             return response()->json(['error' => $validation->errors(), 'status_code' => 400]);
         } else {
-            $doctor_id = auth()->user()->id;
-            if (TimeSlot::where('user_id', $doctor_id)->where('day_en', '=', $request->day_en)->exists()) {
+            $doctor = auth()->user();
+            if (TimeSlot::where('user_id', $doctor->id)->where('day_en', '=', $request->day_en)->exists()) {
                 return response()->json(['error' => 'Fail! You added this day before. Please try another day.', 'status_code' => 400]);
             }
             TimeSlot::create([
-                'user_id' => $doctor_id,
-                'address_id' => $request->address_id,
+                'user_id' => $doctor->id,
+                'address_id' => $doctor->address->id,
                 'day_en' => $request->day_en,
                 'day_ar' => $request->day_ar,
                 'start_time' => $request->start_time,
@@ -53,7 +53,6 @@ class TimeSlotController extends Controller
         }
         $validation = Validator::make($request->all(), [
             'slot_id' => 'required',
-            'address_id' => 'sometimes|required',
             'day_en' => 'sometimes|required',
             'day_ar' => 'sometimes|required',
             'start_time' => 'sometimes|required',
