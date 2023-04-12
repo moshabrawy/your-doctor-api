@@ -15,9 +15,21 @@ class TimeSlotResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // return [
+        //     'address' => $this->address_id,
+        //     'slots' => [
+        //         'id' => $this->id,
+        //         // 'address_id' => $this->address_id,
+        //         'day' => $this->day_en,
+        //         'start_time' => Carbon::parse($this->start_time)->format('h:i A'),
+        //         'end_time' => Carbon::parse($this->end_time)->format('h:i A')
+        //     ]
+
+        // ];
+
         return [
             'id' => $this->id,
-            'address_id' => $this->address_id,
+            // 'address_id' => $this->address_id,
             'day' => $this->day_en,
             'start_time' => Carbon::parse($this->start_time)->format('h:i A'),
             'end_time' => Carbon::parse($this->end_time)->format('h:i A')
