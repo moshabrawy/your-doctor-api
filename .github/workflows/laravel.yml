@@ -19,9 +19,9 @@ jobs:
     - name: FTP Deploy
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
-       server: y.d.moshabrawy.com
-       username: your-doctor@y.d.moshabrawy.com
-       password: wHF1~S.P0WKn
+       server: ydoctor.atwebpages.com
+       username: 4294577_ydoctor
+       password: 46(lGTm%9QY1^Tgy
        port: 21
 #     - name: Copy .env
 #       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
