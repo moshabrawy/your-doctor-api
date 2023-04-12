@@ -24,10 +24,12 @@ class DoctorResource extends JsonResource
                     'bio' => $this->doctor_info->bio,
                     'phone' => $this->phone,
                     'fees' => $this->doctor_info->fees,
-                    'addresses' => [
-                        'slots' => TimeSlotResource::collection($this->time_slot)
+                    'slots' => TimeSlotResource::collection($this->time_slot)
 
-                    ]
+                    // 'addresses' => [
+                    //     'slots' => TimeSlotResource::collection($this->time_slot)
+
+                    // ]
                 ];
             })
         ];
