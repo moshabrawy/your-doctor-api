@@ -21,7 +21,6 @@ class TimeSlotController extends Controller
             return response()->json(['error' => 'Unauthorized!', 'status_code' => 401]);
         }
         $validation = Validator::make($request->all(), [
-            // 'address_id' => 'required',
             'day_en' => 'required',
             'day_ar' => 'required',
             'start_time' => 'required',
@@ -37,7 +36,7 @@ class TimeSlotController extends Controller
             }
             TimeSlot::create([
                 'user_id' => $doctor->id,
-                'address_id' => $doctor->address->id,
+                'address_id' => $doctor->address->first()->id,
                 'day_en' => $request->day_en,
                 'day_ar' => $request->day_ar,
                 'start_time' => $request->start_time,
