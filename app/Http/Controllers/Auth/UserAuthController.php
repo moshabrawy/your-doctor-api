@@ -96,12 +96,14 @@ class UserAuthController extends Controller
                 'user_type' => $request->user_type === 'user' ? '1' : '0',
                 'password' => Hash::make($request->password),
             ]);
-            DoctorInfo::create([
-                'user_id' => $user->id,
-                'specialty_id' => $request->specialty_id,
-                'bio' => 'Don’t fear any illness…everything has its cure.',
-                'fees' => 0,
-            ]);
+            if ($user->user_type == 0) {
+                DoctorInfo::create([
+                    'user_id' => $user->id,
+                    'specialty_id' => $request->specialty_id,
+                    'bio' => 'Don’t fear any illness…everything has its cure.',
+                    'fees' => 0,
+                ]);
+            }
 
             return response()->json(['message' => 'Success', 'status_code' => 200], 200);
         }
