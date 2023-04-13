@@ -33,7 +33,7 @@ class TimeSlotController extends Controller
         } else {
             $doctor = auth()->user();
             if (TimeSlot::where('user_id', $doctor->id)->where('day_en', $request->day_en)->exists()) {
-                return response()->json(['error' => 'Fail! You added this day before. Please try another day.', 'status_code' => 400]);
+                return response()->json(['error' => 'Fail! You added this day before. Please try another day.', 'status_code' => 400],400);
             }
             TimeSlot::create([
                 'user_id' => $doctor->id,
@@ -46,6 +46,7 @@ class TimeSlotController extends Controller
             return response()->json(['message' => 'Create Success!', 'status_code' => 200]);
         }
     }
+
     public function update_slot(Request $request)
     {
         if ($this->user_type !== 'doctor') {
@@ -78,6 +79,7 @@ class TimeSlotController extends Controller
         $slot->save();
         return response()->json(['message' => 'Update Success!', 'status_code' => 200]);
     }
+
     public function get_my_slots()
     {
         $doctor_id = auth()->user()->id;

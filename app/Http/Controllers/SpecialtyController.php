@@ -10,6 +10,6 @@ class SpecialtyController extends Controller
     public function get_all_specialties()
     {
         $addresses = Specialty::get(['id', 'title', 'icon', 'brief']);
-        return response()->json(['data' => $addresses, 'status_code' => 400]);
+        return response()->json(['data' => $addresses, 'status_code' => 200]);
     }
 }
