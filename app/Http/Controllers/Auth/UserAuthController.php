@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Mail\SendOtpMail;
+use App\Models\DoctorInfo;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\RequiredIf;
 use Twilio\Rest\Client;
 use Twilio\Exceptions\RestException;
 
@@ -81,6 +83,7 @@ class UserAuthController extends Controller
                 'required',
                 Rule::in(['user', 'doctor']),
             ],
+            'specialty_id' => new RequiredIf($request->user_type == 'doctor'),
             'password' => 'required|string|confirmed'
         ]);
         if ($validation->fails()) {
@@ -93,6 +96,13 @@ class UserAuthController extends Controller
                 'user_type' => $request->user_type === 'user' ? '1' : '0',
                 'password' => Hash::make($request->password),
             ]);
+            DoctorInfo::create([
+                'user_id' => $user->id,
+                'specialty_id' => $request->specialty_id,
+                'bio' => 'Don’t fear any illness…everything has its cure.',
+                'fees' => 0,
+            ]);
+
             return response()->json(['message' => 'Success', 'status_code' => 200], 200);
         }
     }

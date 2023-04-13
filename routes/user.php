@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\DoctorInfoController;
+use App\Http\Controllers\SpecialtyController;
 use App\Http\Controllers\TimeSlotController;
 use App\Http\Controllers\User\UserInfoController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,7 @@ Route::group(['middleware' => ['api', 'auth:api', 'userAuth']], function ($route
     Route::get('get_my_slots', [TimeSlotController::class, 'get_my_slots']);
 });
 
+Route::get('get_all_specialties', [SpecialtyController::class, 'get_all_specialties']);
 Route::get('get_all_doctors', [DoctorInfoController::class, 'get_all_doctors']);
 Route::post('get_doctor_details', [DoctorInfoController::class, 'get_doctor_details']);
 // Route::view('reset', 'emails.reset_password');
