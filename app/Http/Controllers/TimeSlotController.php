@@ -33,7 +33,7 @@ class TimeSlotController extends Controller
         } else {
             $doctor = auth()->user();
             if (TimeSlot::where('user_id', $doctor->id)->where('day_en', $request->day_en)->exists()) {
-                return response()->json(['error' => 'Fail! You added this day before. Please try another day.', 'status_code' => 400],400);
+                return response()->json(['error' => 'Fail! You added this day before. Please try another day.', 'status_code' => 400], 400);
             }
             TimeSlot::create([
                 'user_id' => $doctor->id,
@@ -78,6 +78,27 @@ class TimeSlotController extends Controller
         $slot->end_time = $request->end_time ?? $slot->end_time;
         $slot->save();
         return response()->json(['message' => 'Update Success!', 'status_code' => 200]);
+    }
+    
+    public function delete_slot(Request $request)
+    {
+        if ($this->user_type !== 'doctor') {
+            return response()->json(['error' => 'Unauthorized!', 'status_code' => 401]);
+        }
+        $validation = Validator::make($request->all(), ['slot_id' => 'required']);
+        if ($validation->fails()) {
+            return response()->json(['error' => $validation->errors(), 'status_code' => 400]);
+        }
+        $doctor = auth()->user();
+        if (TimeSlot::where('id', '<>', $request->slot_id)->where('user_id', $doctor->id)->where('day_en', $request->day_en)->exists()) {
+            return response()->json(['error' => 'Fail! You added this day before. Please try another day.', 'status_code' => 400]);
+        }
+        $slot = TimeSlot::where('id', $request->slot_id)->where('user_id', auth()->user()->id)->first();
+        if (!$slot) {
+            return response()->json(['error' => 'Invalid ID', 'status_code' => 400]);
+        }
+        $slot->delete();
+        return response()->json(['message' => 'Delete Success!', 'status_code' => 200]);
     }
 
     public function get_my_slots()

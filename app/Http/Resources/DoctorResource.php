@@ -17,7 +17,8 @@ class DoctorResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'avatar' => $this->avatar,
+            // 'avatar' => $this->avatar,
+            'avatar' => 'http://moshabrawy.atwebpages.com/641db8f79c465.jpeg',
             'specialty' => $this->doctor_info->specialty->title,
             $this->mergeWhen($request->details == true, function () {
                 return [
