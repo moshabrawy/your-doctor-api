@@ -30,7 +30,7 @@ Route::group(['middleware' => ['api', 'auth:api', 'userAuth']], function ($route
     Route::get('get_my_addresses', [AddressController::class, 'get_my_addresses']);
     Route::post('add_slot', [TimeSlotController::class, 'add_slot']);
     Route::post('update_slot', [TimeSlotController::class, 'update_slot']);
-    Route::post('delete_slot', [TimeSlotController::class, 'delete_slot']);
+    Route::delete('delete_slot', [TimeSlotController::class, 'delete_slot']);
     Route::get('get_my_slots', [TimeSlotController::class, 'get_my_slots']);
 });
 
