@@ -15,4 +15,9 @@ class Address extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function time_slots()
+    {
+        return $this->hasMany(TimeSlot::class);
+    }
 }

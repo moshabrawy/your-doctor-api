@@ -17,20 +17,14 @@ class DoctorResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            // 'avatar' => $this->avatar,
-            'avatar' => 'http://moshabrawy.atwebpages.com/641db8f79c465.jpeg',
+            'avatar' => $this->avatar,
             'specialty' => $this->doctor_info->specialty->title,
             $this->mergeWhen($request->details == true, function () {
                 return [
                     'bio' => $this->doctor_info->bio,
                     'phone' => $this->phone,
                     'fees' => $this->doctor_info->fees,
-                    'slots' => TimeSlotResource::collection($this->time_slot)
-
-                    // 'addresses' => [
-                    //     'slots' => TimeSlotResource::collection($this->time_slot)
-
-                    // ]
+                    'addresses' => TimeSlotResource::collection($this->address)
                 ];
             })
         ];

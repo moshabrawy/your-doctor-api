@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\TimeSlotResource;
+use App\Models\Address;
 use App\Models\TimeSlot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -79,7 +80,7 @@ class TimeSlotController extends Controller
         $slot->save();
         return response()->json(['message' => 'Update Success!', 'status_code' => 200]);
     }
-    
+
     public function delete_slot(Request $request)
     {
         if ($this->user_type !== 'doctor') {
@@ -104,8 +105,8 @@ class TimeSlotController extends Controller
     public function get_my_slots()
     {
         $doctor_id = auth()->user()->id;
-        $slots = TimeSlot::where('user_id', $doctor_id)->get();
-        $data = TimeSlotResource::collection($slots);
+        $addresses = Address::where('user_id', $doctor_id)->get();
+        $data = TimeSlotResource::collection($addresses);
         return response()->json(['data' => $data, 'status_code' => 200]);
     }
 }

@@ -15,4 +15,8 @@ class TimeSlot extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
 }

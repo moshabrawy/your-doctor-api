@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\TimeSlot;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -15,24 +16,19 @@ class TimeSlotResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // return [
-        //     'address' => $this->address_id,
-        //     'slots' => [
-        //         'id' => $this->id,
-        //         // 'address_id' => $this->address_id,
-        //         'day' => $this->day_en,
-        //         'start_time' => Carbon::parse($this->start_time)->format('h:i A'),
-        //         'end_time' => Carbon::parse($this->end_time)->format('h:i A')
-        //     ]
-
-        // ];
-
         return [
             'id' => $this->id,
-            // 'address_id' => $this->address_id,
-            'day' => $this->day_en,
-            'start_time' => Carbon::parse($this->start_time)->format('h:i A'),
-            'end_time' => Carbon::parse($this->end_time)->format('h:i A')
+            'clinic_address' => $this->address,
+            'slots' => collect($this->time_slots)->map(function ($slot) {
+                $array = [
+                    'id' => $slot['id'],
+                    'day' => $slot['day_en'],
+                    'start_time' => Carbon::parse($slot['start_time'])->format('h:i A'),
+                    'end_time' => Carbon::parse($slot['end_time'])->format('h:i A')
+                ];
+                return $array;
+            }),
+
         ];
     }
 }
