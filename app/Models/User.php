@@ -44,7 +44,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(TimeSlot::class, 'user_id', 'id');
     }
-
+    public function appointment()
+    {
+        return $this->hasMany(Appointment::class);
+    }
     public function getAvatarAttribute($avatar)
     {
         if ($avatar != '') {

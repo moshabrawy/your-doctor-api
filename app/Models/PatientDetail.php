@@ -9,4 +9,9 @@ class PatientDetail extends Model
 {
     use HasFactory;
     protected $fillable = ['appointment_id', 'patient_name', 'age', 'disease_dec'];
+
+    public function appointment()
+    {
+        return $this->belongsTo(Appointment::class);
+    }
 }

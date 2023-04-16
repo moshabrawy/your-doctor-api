@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('slot_id');
             $table->foreign('slot_id')->on('time_slots')->references('id')->onDelete('cascade');
             $table->date('day_date');
-            $table->enum('status', ['pending', 'accept', 'reject']);
+            $table->enum('status', ['pending', 'accept', 'reject'])->default('pending');
             $table->timestamps();
         });
     }

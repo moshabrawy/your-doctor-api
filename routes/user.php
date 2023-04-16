@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\DoctorInfoController;
 use App\Http\Controllers\SpecialtyController;
 use App\Http\Controllers\TimeSlotController;
 use App\Http\Controllers\User\UserInfoController;
+use App\Models\Appointment;
 use Illuminate\Support\Facades\Route;
 
 /* User Routes */
@@ -32,6 +34,11 @@ Route::group(['middleware' => ['api', 'auth:api', 'userAuth']], function ($route
     Route::post('update_slot', [TimeSlotController::class, 'update_slot']);
     Route::delete('delete_slot', [TimeSlotController::class, 'delete_slot']);
     Route::get('get_my_slots', [TimeSlotController::class, 'get_my_slots']);
+
+    //Appointment
+    Route::post('booking', [AppointmentController::class, 'booking']);
+    Route::get('get_my_appointments', [AppointmentController::class, 'get_my_appointments']);
+
 });
 
 Route::get('get_all_specialties', [SpecialtyController::class, 'get_all_specialties']);
