@@ -22,9 +22,11 @@ class AppointmentController extends Controller
     public function get_my_appointments()
     {
         $id = $this->user_type == 'user' ? 'user_id' : 'doctor_id';
-        $appointments = Appointment::where($id, auth()->user()->id)->get();
-        $data = AppointmentResource::collection($appointments);
-        return response()->json(['data' => $data, 'status_code' => 200]);
+        $appointments = Appointment::where($id, auth()->user()->id);
+        $rows_count = $appointments->count();
+        $all_appointments = $appointments->paginate('10');
+        $data = AppointmentResource::collection($all_appointments);
+        return response()->json(['rows_count' => $rows_count, 'count_pages' => $data->lastPage(), 'data' => $data, 'status_code' => 200]);
     }
 
     public function booking_details(Request $request)
