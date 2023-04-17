@@ -22,7 +22,7 @@ class AppointmentResource extends JsonResource
             'booking_date' => $this->day_date,
             'status' => $this->status,
             'patient_name' => $this->patient_details->patient_name,
-            'patient_age' => $this->patient_details->age,
+            'patient_age' => $this->patient_details->age .' years',
             'disease_dec' => $this->patient_details->disease_dec,
         ];
     }

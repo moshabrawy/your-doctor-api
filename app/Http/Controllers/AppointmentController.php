@@ -27,6 +27,23 @@ class AppointmentController extends Controller
         return response()->json(['data' => $data, 'status_code' => 200]);
     }
 
+    public function booking_details(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'booking_id' => [
+                'required',
+                Rule::exists('appointments', 'id'),
+            ]
+        ]);
+        if ($validation->fails()) {
+            return response()->json(['error' => $validation->errors()->first(), 'status_code' => 400]);
+        } else {
+            $booking = Appointment::where('id', $request->booking_id)->get();
+            $data = AppointmentResource::collection($booking);
+            return response()->json(['data' => $data[0], 'status_code' => 200]);
+        }
+    }
+
     public function booking(Request $request)
     {
         $validation = Validator::make($request->all(), [
@@ -64,6 +81,46 @@ class AppointmentController extends Controller
                 'disease_dec' => $request->disease_dec,
             ]);
             return response()->json(['message' => 'Success!', 'status_code' => 200]);
+        }
+    }
+
+    public function accept_booking(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'booking_id' => [
+                'required',
+                Rule::exists('appointments', 'id'),
+            ]
+        ]);
+        if ($validation->fails()) {
+            return response()->json(['error' => $validation->errors()->first(), 'status_code' => 400]);
+        } else {
+            $booking = Appointment::where('id', $request->booking_id)->where('doctor_id', auth()->user()->id)->first();
+
+            if (!$booking) {
+                return response()->json(['error' => 'The selected booking id is invalid.', 'status_code' => 400]);
+            }
+            $booking->status = 'accept';
+            $booking->save();
+            return response()->json(['message' => 'Success! Booking Accepted.', 'status_code' => 200]);
+        }
+    }
+
+    public function cancel_booking(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'booking_id' => [
+                'required',
+                Rule::exists('appointments', 'id'),
+            ]
+        ]);
+        if ($validation->fails()) {
+            return response()->json(['error' => $validation->errors()->first(), 'status_code' => 400]);
+        } else {
+            $booking = Appointment::where('id', $request->booking_id)->first();
+            $booking->status = 'reject';
+            $booking->save();
+            return response()->json(['message' => 'Success! Booking was canceled.', 'status_code' => 200]);
         }
     }
 }
