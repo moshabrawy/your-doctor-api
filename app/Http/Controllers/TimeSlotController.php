@@ -33,7 +33,7 @@ class TimeSlotController extends Controller
             return response()->json(['error' => $validation->errors(), 'status_code' => 400]);
         } else {
             $doctor = auth()->user();
-            if (TimeSlot::where('user_id', $doctor->id)->where('day_en', $request->day_en)->exists()) {
+            if (TimeSlot::where('user_id', $doctor->id)->where('address_id', $request->address_id)->where('day_en', $request->day_en)->exists()) {
                 return response()->json(['error' => 'Fail! You added this day before. Please try another day.', 'status_code' => 400], 400);
             }
             TimeSlot::create([
