@@ -15,7 +15,7 @@ class DoctorInfoController extends Controller
     {
         $doctors = User::where('user_type', '0');
         $rows_count = $doctors->count();
-        $all_doctors = $doctors->paginate(10);
+        $all_doctors = $doctors->paginate(12);
         $data = DoctorResource::collection($all_doctors);
         return response()->json(['rows_count' => $rows_count, 'count_pages' => $data->lastPage(), 'data' => $data, 'status_code' => 200]);
     }
@@ -34,7 +34,7 @@ class DoctorInfoController extends Controller
         } else {
             $doctors = DoctorInfo::where('specialty_id', $request->specialty_id)->with('user');
             $rows_count = $doctors->count();
-            $all_doctors = $doctors->paginate(10);
+            $all_doctors = $doctors->paginate(12);
             $data = DoctorResource::collection($all_doctors);
             return response()->json(['rows_count' => $rows_count, 'count_pages' => $data->lastPage(), 'data' => $data, 'status_code' => 200]);
         }
