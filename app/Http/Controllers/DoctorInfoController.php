@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\DoctorResource;
+use App\Models\DoctorInfo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -17,6 +18,26 @@ class DoctorInfoController extends Controller
         $all_doctors = $doctors->paginate(10);
         $data = DoctorResource::collection($all_doctors);
         return response()->json(['rows_count' => $rows_count, 'count_pages' => $data->lastPage(), 'data' => $data, 'status_code' => 200]);
+    }
+
+    public function get_doctors_by_specialty(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'specialty_id' => [
+                'required',
+                Rule::exists('specialties', 'id')
+            ],
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json(['error' => $validation->errors()->first(), 'status_code' => 400]);
+        } else {
+            $doctors = DoctorInfo::where('specialty_id', $request->specialty_id)->with('user');
+            $rows_count = $doctors->count();
+            $all_doctors = $doctors->paginate(10);
+            $data = DoctorResource::collection($all_doctors);
+            return response()->json(['rows_count' => $rows_count, 'count_pages' => $data->lastPage(), 'data' => $data, 'status_code' => 200]);
+        }
     }
     public function get_doctor_details(Request $request)
     {

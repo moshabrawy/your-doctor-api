@@ -14,12 +14,26 @@ class DoctorResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $endpoint = $request->segment(2); // Endpoint Name
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            // 'avatar' => $this->avatar,
-            'avatar' => $this->gender == 'male' ? 'https://i.ibb.co/5cPD8dP/doctors-man.jpg' : 'https://i.ibb.co/J5vKKQt/doctors-women.jpg',
-            'specialty' => $this->doctor_info->specialty->title,
+            $this->mergeWhen($endpoint != 'get_doctors_by_specialty', function () {
+                return [
+                    'id' => $this->id,
+                    'name' => $this->name,
+                    // 'avatar' => $this->avatar,
+                    'avatar' => $this->gender == 'male' ? 'https://i.ibb.co/5cPD8dP/doctors-man.jpg' : 'https://i.ibb.co/J5vKKQt/doctors-women.jpg',
+                    'specialty' => $this->doctor_info->specialty->title,
+                ];
+            }),
+            $this->mergeWhen($endpoint == 'get_doctors_by_specialty', function () {
+                return [
+                    'id' => $this->user->id,
+                    'name' => $this->user->name,
+                    // 'avatar' => $this->user->avatar,
+                    'avatar' => $this->user->gender == 'male' ? 'https://i.ibb.co/5cPD8dP/doctors-man.jpg' : 'https://i.ibb.co/J5vKKQt/doctors-women.jpg',
+                    'specialty' => $this->specialty->title,
+                ];
+            }),
             $this->mergeWhen($request->details == true, function () {
                 return [
                     'bio' => $this->doctor_info->bio,
