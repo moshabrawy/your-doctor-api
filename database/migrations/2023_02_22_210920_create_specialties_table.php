@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('specialties', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('icon');
+            $table->string('image');
             $table->string('brief');
             $table->softDeletes();
             $table->timestamps();
