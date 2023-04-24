@@ -37,9 +37,6 @@ class UserInfoController extends Controller
                 'birth_date' => 'sometimes|required',
                 'current_password' => 'sometimes|required|string',
                 'password' => Rule::requiredIf($request->has('current_password')), 'string|confirmed',
-                'address' => 'sometimes|required',
-                'state' => 'sometimes|required',
-                'country' => 'sometimes|required',
                 'avatar' => 'sometimes|required',
                 "avatar.*" => 'sometimes|base64mimes:jpg,png,jpeg|base64max:5128'
             ]);
@@ -65,25 +62,6 @@ class UserInfoController extends Controller
                     $user->password = Hash::make($request->password);
                 }
                 $user->save();
-
-                //Update User Address
-                $req_keys = ['address', 'state', 'country'];
-                if ($request && Str::contains(Implode(' , ', $request->keys()), $req_keys)) {
-                    $address = Address::where('user_id', auth('api')->user()->id)->first();
-                    if (!empty($address)) {
-                        $address->address = $request->address ?? $address->address;
-                        $address->state   = $request->state ?? $address->state;
-                        $address->country = $request->country ?? $address->country;
-                        $address->save();
-                    } else {
-                        Address::create([
-                            "user_id" => auth('api')->user()->id,
-                            'address' => $request->address,
-                            'state' => $request->state,
-                            'country' => $request->country
-                        ]);
-                    }
-                }
                 return response()->json(['message' => 'Data updated success', 'status_code' => 200]);
             }
         } else {

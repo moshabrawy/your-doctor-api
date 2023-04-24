@@ -26,24 +26,34 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
 Route::group(['middleware' => ['api', 'auth:api', 'userAuth']], function ($router) {
     Route::post('logout', [UserAuthController::class, 'logout']);
+    //User Profile Endpoint
     Route::get('get_profile_data', [UserInfoController::class, 'get_profile_data']);
     Route::post('update_user_info', [UserInfoController::class, 'update_user_info']);
 
+    //Address Endpoint
+    Route::post('add_new_address', [AddressController::class, 'add_new_address']);
+    Route::post('update_address', [AddressController::class, 'update_address']);
+    Route::delete('delete_address', [AddressController::class, 'delete_address']);
     Route::get('get_my_addresses', [AddressController::class, 'get_my_addresses']);
+
+    //Time Slots Endpoint
     Route::post('add_slot', [TimeSlotController::class, 'add_slot']);
     Route::post('update_slot', [TimeSlotController::class, 'update_slot']);
     Route::delete('delete_slot', [TimeSlotController::class, 'delete_slot']);
     Route::get('get_my_slots', [TimeSlotController::class, 'get_my_slots']);
 
     //Appointment
+    Route::post('booking', [AppointmentController::class, 'booking']);
     Route::get('get_my_appointments', [AppointmentController::class, 'get_my_appointments']);
     Route::post('booking_details', [AppointmentController::class, 'booking_details']);
-    Route::post('booking', [AppointmentController::class, 'booking']);
     Route::post('accept_booking', [AppointmentController::class, 'accept_booking']);
     Route::post('cancel_booking', [AppointmentController::class, 'cancel_booking']);
 
+    // Search Endpoint
+
 });
 
+Route::post('search', [SpecialtyController::class, 'search']);
 Route::get('get_all_specialties', [SpecialtyController::class, 'get_all_specialties']);
 Route::get('get_all_doctors', [DoctorInfoController::class, 'get_all_doctors']);
 Route::get('get_doctors_by_specialty', [DoctorInfoController::class, 'get_doctors_by_specialty']);

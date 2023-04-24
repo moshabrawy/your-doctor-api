@@ -16,7 +16,7 @@ class DoctorResource extends JsonResource
     {
         $endpoint = $request->segment(2); // Endpoint Name
         return [
-            $this->mergeWhen($endpoint != 'get_doctors_by_specialty', function () {
+            $this->mergeWhen($endpoint != 'get_doctors_by_specialty' && $endpoint != 'search', function () {
                 return [
                     'id' => $this->id,
                     'name' => $this->name,
@@ -25,7 +25,7 @@ class DoctorResource extends JsonResource
                     'specialty' => $this->doctor_info->specialty->title,
                 ];
             }),
-            $this->mergeWhen($endpoint == 'get_doctors_by_specialty', function () {
+            $this->mergeWhen($endpoint == 'get_doctors_by_specialty' || $endpoint == 'search', function () {
                 return [
                     'id' => $this->user->id,
                     'name' => $this->user->name,
