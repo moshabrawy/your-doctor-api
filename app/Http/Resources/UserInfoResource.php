@@ -27,9 +27,9 @@ class UserInfoResource extends JsonResource
             'gender' => $this->gender,
             'phone' => $this->phone,
             'birth_date' => Carbon::parse($this->birth_date)->format('d, M, Y'),
-            // $this->mergeWhen($this->address, function () {
-            //     return ["addresses" =>  AddressResource::collection($this->address)];
-            // }),
+            $this->mergeWhen($this->address, function () {
+                return ["addresses" =>  AddressResource::collection($this->address)];
+            }),
         ];
     }
 }
