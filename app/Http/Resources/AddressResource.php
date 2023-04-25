@@ -15,9 +15,14 @@ class AddressResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'address' => $this->address,
-            'state'   => $this->state,
-            'country' => $this->country,
+            $this->mergeWhen($request->key == true, function () {
+                return [
+                    'state'   => $this->state,
+                    'country' => $this->country,
+                ];
+            })
         ];
     }
 }

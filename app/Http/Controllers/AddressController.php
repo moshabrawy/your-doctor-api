@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AddressResource;
 use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -19,8 +20,9 @@ class AddressController extends Controller
         if ($this->user_type !== 'doctor') {
             return response()->json(['error' => 'Unauthorized! Your are not a doctor', 'status_code' => 401]);
         }
-        $addresses = Address::where('user_id', auth()->user()->id)->get(['id', 'address']);
-        return response()->json(['data' => $addresses, 'status_code' => 400]);
+        $addresses = Address::where('user_id', auth()->user()->id)->get();
+        $data = AddressResource::collection($addresses);
+        return response()->json(['data' => $data, 'status_code' => 400]);
     }
 
     public function add_new_address(Request $request)
