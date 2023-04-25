@@ -17,12 +17,8 @@ class AddressResource extends JsonResource
         return [
             'id' => $this->id,
             'address' => $this->address,
-            $this->mergeWhen($request->key == true, function () {
-                return [
-                    'state'   => $this->state,
-                    'country' => $this->country,
-                ];
-            })
+            'state'   => $this->state,
+            'country' => $this->country,
         ];
     }
 }
