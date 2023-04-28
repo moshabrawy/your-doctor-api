@@ -60,7 +60,7 @@ class UserInfoController extends Controller
                     $user->email = $request->email ?? $user->email;
                     $user->phone = $request->phone ?? $user->phone;
                     $user->gender = $request->gender ?? $user->gender;
-                    $user->birth_date = Carbon::createFromFormat('d, M, Y', $request->birth_date)->format('Y-m-d') ?? $user->birth_date;
+                    // $user->birth_date = Carbon::createFromFormat('d, M, Y', $request->birth_date)->format('Y-m-d') ?? $user->birth_date;
                     $user->avatar = $request->has('avatar') ? $this->UploudImage($request->avatar, 'profile') : $user->avatar;
                 }
                 $user->save();
