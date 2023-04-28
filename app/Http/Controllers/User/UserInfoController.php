@@ -43,6 +43,7 @@ class UserInfoController extends Controller
             if ($validation->fails()) {
                 return response()->json(['error' => $validation->errors(), 'status_code' => 400], 400);
             } else {
+                // return Carbon::parse($request->birth_date)->format('Y-m-d');
                 $name = $request->first_name . ' ' . $request->last_name;
                 $user->name = $name ?? $user->name;
                 $user->email = $request->email ?? $user->email;
@@ -54,10 +55,10 @@ class UserInfoController extends Controller
                 //Update User Password
                 if (isset($request->password)) {
                     if (!(Hash::check($request->get('current_password'), auth('api')->user()->password))) {
-                        return response()->json(['message' => 'Current password does not match', 'Status Code' => 400], 400);
+                        return response()->json(['error' => 'Current password does not match', 'Status Code' => 400], 400);
                     }
                     if (strcmp($request->get('current_password'), $request->get('password')) == 0) {
-                        return response()->json(['message' => 'New Password cannot be same as your current password', 'Status Code' => 400], 400);
+                        return response()->json(['error' => 'New Password cannot be same as your current password', 'Status Code' => 400], 400);
                     }
                     $user->password = Hash::make($request->password);
                 }
