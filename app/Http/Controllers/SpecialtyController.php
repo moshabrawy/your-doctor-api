@@ -2,23 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\DoctorResource;
 use App\Http\Resources\SpecialtyResource;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\DoctorResource;
+use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
 use App\Models\DoctorInfo;
 use App\Models\Specialty;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class SpecialtyController extends Controller
 {
-    public function get_all_specialties()
+    public function get_all_specialties(Request $request)
     {
-        $addresses = Specialty::get();
+        $addresses = Specialty::select('*');
+        $addresses = !empty($request->page) ? $addresses->paginate(10) : $addresses->get();
         $data = SpecialtyResource::collection($addresses);
-        return response()->json(['data' => $data, 'status_code' => 200]);
+
+        if (!empty($request->page)) {
+            return response()->json(['page_count' => $addresses->lastPage(), 'data' => $data, 'status_code' => 200]);
+        } else {
+            return response()->json(['data' => $data, 'status_code' => 200]);
+        }
     }
+
     public function search(Request $request)
     {
         $validation = Validator::make($request->all(), [

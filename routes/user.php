@@ -43,6 +43,7 @@ Route::group(['middleware' => ['api', 'auth:api', 'userAuth']], function ($route
     Route::get('get_my_slots', [TimeSlotController::class, 'get_my_slots']);
 
     //Appointment
+    Route::post('get_dates_by_day', [AppointmentController::class, 'get_dates_by_day']);
     Route::post('booking', [AppointmentController::class, 'booking']);
     Route::get('get_my_appointments', [AppointmentController::class, 'get_my_appointments']);
     Route::post('booking_details', [AppointmentController::class, 'booking_details']);

@@ -46,6 +46,19 @@ class AppointmentController extends Controller
         }
     }
 
+    public function get_dates_by_day(Request $request)
+    {
+        $start_date = Carbon::now();
+        $end_date = Carbon::now()->addMonths(2);
+        $dates = [];
+        $currentDate = Carbon::parse($start_date)->next($request->day_name);
+        while ($currentDate->lte(Carbon::parse($end_date))) {
+            $dates[] = $currentDate->format('Y-m-d');
+            $currentDate = $currentDate->next($request->day_name);
+        }
+        return response()->json(['dates' => $dates, 'status_code' => 200]);
+    }
+
     public function booking(Request $request)
     {
         $validation = Validator::make($request->all(), [
