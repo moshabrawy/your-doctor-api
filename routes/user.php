@@ -50,8 +50,6 @@ Route::group(['middleware' => ['api', 'auth:api', 'userAuth']], function ($route
     Route::post('accept_booking', [AppointmentController::class, 'accept_booking']);
     Route::post('cancel_booking', [AppointmentController::class, 'cancel_booking']);
 
-    // Search Endpoint
-
 });
 
 Route::post('search', [SpecialtyController::class, 'search']);
