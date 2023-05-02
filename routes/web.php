@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\AppointmentController;
 use App\Http\Controllers\Dashboard\DoctorController;
 use App\Http\Controllers\Dashboard\PatientController;
@@ -12,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 // Auth Controller For All Type Of Users
 Route::group(['prefix' => '/', 'namespace' => 'Auth', 'middleware' => 'guest'], function () {
     Route::view('login', 'auth.login')->name('Login');
-    Route::GET('register', [UserController::class, 'showRegister'])->name('Register');
-    Route::POST('post-login', [UserController::class, 'postLogin'])->name('PostLogin');
-    Route::POST('post-register', [UserController::class, 'postRegister'])->name('PostRegister');
+    Route::POST('post-login', [AdminController::class, 'postLogin'])->name('PostLogin');
 });
 Route::GET('logout', [UserController::class, 'logout'])->name('Logout');
 

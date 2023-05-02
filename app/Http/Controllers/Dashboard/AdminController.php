@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Models\User;
 use App\Models\Doctor;
@@ -11,23 +11,19 @@ use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
-class UserController extends Controller
+class AdminController extends Controller
 {
     public function showHome()
     {
         $allSpecialties = Specialty::all();
         $allStates = Address::all();
-        $doctors = Doctor::orderBy('id', 'DESC')->take(4)->get();
-        // $doctors = User::where('user_type', 2)->orderBy('id', 'DESC')->take(4)->get();
+        $doctors = User::where('user_type', 0)->orderBy('id', 'DESC')->take(4)->get();
         return view('landing.home', compact('doctors', 'allSpecialties', 'allStates'));
     }
-    public function showRegister()
-    {
-        $allSpecialties = Specialty::get();
-        return view('auth.register', compact('allSpecialties'));
-    }
+
     public function postLogin(Request $request)
     {
         $request->validate([
@@ -56,68 +52,13 @@ class UserController extends Controller
             return redirect()->back();
         }
     }
-    public function postRegister(Request $request)
-    {
-        if ($request->user_type == 2) {
-            $request->validate([
-                'name'        => 'required',
-                'email'           => 'email|required',
-                'password'        => 'required',
-                'confPass' => 'required|same:password',
-                'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10240',
-                'phone'           => 'required',
-                'birth_date'           => 'required',
-                'specialty'          => 'required',
-                'user_type'          => 'required',
-                'fees'          => 'required',
-            ]);
-        } else {
-            $request->validate([
-                'name'        => 'required',
-                'email'           => 'email|required',
-                'password'        => 'required',
-                'confPass' => 'required|same:password',
-                'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10240',
-                'phone'           => 'required',
-                'birth_date'           => 'required',
-                'user_type'          => 'required',
-            ]);
-        }
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->gender = $request->gender;
-        $user->birth_date = $request->birth_date;
-        $user->phone = $request->phone;
-        $user->user_type = $request->user_type;
-        //upload user avatar
-        if ($request->hasFile('avatar')) {
-            $user->avatar = Storage::disk('public')->put('upload/avatars', $request->file('avatar'));
-        }
-        $user->save();
-        if ($user->user_type == 2) {
-            $doctor = new Doctor();
-            $doctor->bio = $request->bio;
-            $doctor->fees = $request->fees;
-            $doctor->user_id = $user->id;
-            $doctor->specialty_id = $request->specialty;
-            $doctor->save();
-        }
-        $address = new Address();
-        $address->city = $request->city;
-        $address->state = $request->state;
-        $address->postal_code = $request->postal_code;
-        $address->user_id = $user->id;
-        $address->save();
 
-        return redirect()->route('Login');
-    }
     public function logout()
     {
         Auth::logout();
         return redirect()->route('Login');
     }
+
     public function search(Request $request)
     {
         $search = $request->get('search');
@@ -138,12 +79,14 @@ class UserController extends Controller
         $allDoctors = $allDoctors->paginate(10);
         return view('landing.doctors.all', compact('allDoctors'));
     }
+
     public function viewUser($id)
     {
         $user = User::findOrFail($id);
         $allSpecialties = Specialty::get();
         return view('dashboard.user.view', compact('user', 'allSpecialties'));
     }
+
     public function userProfile($id)
     {
         $user = User::findOrFail($id);
@@ -157,6 +100,7 @@ class UserController extends Controller
             return view('landing.profile.profile', compact('user', 'docTimeSlots', 'userAppointments'));
         }
     }
+
     public function edit($id)
     {
         $user = User::findOrFail($id);
@@ -213,6 +157,7 @@ class UserController extends Controller
             return redirect()->route('ViewUser', $user->id);
         }
     }
+
     public function updateInfo(Request $request, User $user)
     {
         $input = $request->except('_token', '_method');
@@ -250,6 +195,7 @@ class UserController extends Controller
             return redirect()->route('UserProfile', $user->id);
         }
     }
+
     //Admin
     public function userCount()
     {
