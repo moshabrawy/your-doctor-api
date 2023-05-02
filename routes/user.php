@@ -2,12 +2,11 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\User\UserInfoController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\DoctorInfoController;
 use App\Http\Controllers\SpecialtyController;
 use App\Http\Controllers\TimeSlotController;
-use App\Http\Controllers\User\UserInfoController;
-use App\Models\Appointment;
 use Illuminate\Support\Facades\Route;
 
 /* User Routes */
