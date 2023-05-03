@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class Admin
@@ -16,12 +15,9 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->user_type == 1) {
-            return $next($request);
-        } elseif (Auth::check() && Auth::user()->user_type == 2 || Auth::check() && Auth::user()->user_type == 3) {
-            return redirect()->route('Home');
-        } else {
+        if (!auth('admin')->check()) {
             return redirect()->route('Login');
         }
+        return $next($request);
     }
 }

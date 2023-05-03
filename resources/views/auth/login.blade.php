@@ -1,7 +1,5 @@
-<html lang="en">
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ App::getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
@@ -10,6 +8,8 @@
     <title>Your Doctor | Admin Dashboard</title>
     <!--Start CSS-->
     <link href="{{ asset('assets/auth/css/style.css') }}" rel="stylesheet" />
+    @notifyCss
+
 </head>
 
 <body>
@@ -223,6 +223,9 @@
         </svg>
     </div>
 
+    <!-- plugins:js -->
+    <x-notify::notify />
+    @notifyJs
     <script src="{{ asset('assets/auth/scripts/TweenMax.min.js') }}"></script>
     <script src="{{ asset('assets/auth/scripts/main.js') }}"></script>
 </body>

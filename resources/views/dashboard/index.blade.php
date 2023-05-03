@@ -78,9 +78,9 @@
                                 @foreach ($recentAppointments as $appointment)
                                 <tr>
                                     <td>{{$appointment->id}}</td>
-                                    <td>{{$appointment->patient->name}}</td>
-                                    <td>{{$appointment->doctor->name}}</td>
-                                    <td>{{$appointment->day}}</td>
+                                    {{-- <td>{{$appointment->patient->name}}</td> --}}
+                                    {{-- <td>{{$appointment->doctor->name}}</td> --}}
+                                    {{-- <td>{{$appointment->day}}</td> --}}
                                     <td>{{$appointment->start_time}}</td>
                                     <td>{{$appointment->end_time}}</td>
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\AppointmentController;
 use App\Http\Controllers\Dashboard\DoctorController;
@@ -13,16 +14,15 @@ use Illuminate\Support\Facades\Route;
 // Auth Controller For All Type Of Users
 Route::group(['prefix' => '/', 'namespace' => 'Auth', 'middleware' => 'guest'], function () {
     Route::view('login', 'auth.login')->name('Login');
-    Route::POST('post-login', [AdminController::class, 'postLogin'])->name('PostLogin');
+    Route::POST('post-login', [AdminAuthController::class, 'post_login'])->name('PostLogin');
 });
-Route::GET('logout', [UserController::class, 'logout'])->name('Logout');
 
 Route::group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () {
-    Route::GET('/', function () {
-        return redirect()->route('Dashboard');
-    });
-    Route::GET('index', [UserController::class, 'userCount'])->name('Dashboard');
+    Route::get('/', fn () => redirect()->route('Dashboard'));
+    Route::GET('/', [AdminController::class, 'userCount'])->name('Dashboard');
     Route::view('admin/profile/', 'dashboard.user.profile')->name('AdminProfile');
+
+    Route::GET('logout', [UserController::class, 'logout'])->name('Logout');
 
     // Users Routes Start
     Route::group(['prefix' => 'user'], function () {

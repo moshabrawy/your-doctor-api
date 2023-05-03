@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ App::getLocale() }}">
 
 <head>
     <!-- Required meta tags -->
@@ -16,6 +16,8 @@
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
+    @notifyCss
+
     <link rel="stylesheet" href="{{ asset('assets/css/demo_1.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
@@ -197,7 +199,10 @@
         <!-- container-scroller -->
     @endauth
 
+
     <!-- plugins:js -->
+    <x-notify::notify />
+    @notifyJs
     <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
