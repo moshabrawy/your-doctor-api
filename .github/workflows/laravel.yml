@@ -19,7 +19,7 @@ jobs:
     - name: FTP Deploy
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
-       server: ftp.dalcolc.com
+       server: test.dalcolc.com
        username: test
        password: |@l#^dA>44d]
        port: 21
