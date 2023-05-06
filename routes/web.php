@@ -16,6 +16,7 @@ Route::group(['prefix' => '/', 'namespace' => 'Auth', 'middleware' => 'guest'], 
     Route::view('login', 'auth.login')->name('Login');
     Route::POST('post-login', [AdminAuthController::class, 'post_login'])->name('PostLogin');
 });
+Route::get('/', fn () => redirect()->route('Dashboard'));
 
 Route::group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () {
     Route::get('/', fn () => redirect()->route('Dashboard'));
