@@ -23,7 +23,6 @@ class UserInfoResource extends JsonResource
             'email' => $this->email,
             'user_type' => $this->user_type === 0 ? 'Doctor' : 'User',
             'avatar' => $this->avatar,
-            // 'avatar' => $this->avatar !=  null ? 'https://i.ibb.co/ykGqBLZ/641db8f79c465.jpg' : 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg',
             'gender' => $this->gender,
             'phone' => $this->phone,
             'birth_date' => Carbon::parse($this->birth_date)->format('d, M, Y'),

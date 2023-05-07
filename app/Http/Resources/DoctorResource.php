@@ -20,7 +20,7 @@ class DoctorResource extends JsonResource
                 return [
                     'id' => $this->id,
                     'name' => $this->name,
-                    'avatar' => $this->avatar != null ? $this->avatar : ($this->gender == 'male' ? 'https://i.ibb.co/5cPD8dP/doctors-man.jpg' : 'https://i.ibb.co/J5vKKQt/doctors-women.jpg') ,
+                    'avatar' => $this->avatar != null ? asset('uploads/images/profile/' . $this->avatar) : ($this->gender == 'male' ? 'https://i.ibb.co/5cPD8dP/doctors-man.jpg' : 'https://i.ibb.co/J5vKKQt/doctors-women.jpg'),
                     // 'avatar' => $this->gender == 'male' ? 'https://i.ibb.co/5cPD8dP/doctors-man.jpg' : 'https://i.ibb.co/J5vKKQt/doctors-women.jpg',
                     'specialty' => $this->doctor_info->specialty->title,
                 ];
@@ -29,7 +29,7 @@ class DoctorResource extends JsonResource
                 return [
                     'id' => $this->user->id,
                     'name' => $this->user->name,
-                    'avatar' => $this->user->avatar != null ? $this->user->avatar : ($this->user->gender == 'male' ? 'https://i.ibb.co/5cPD8dP/doctors-man.jpg' : 'https://i.ibb.co/J5vKKQt/doctors-women.jpg') ,
+                    'avatar' => $this->user->avatar != null ? $this->user->avatar : ($this->user->gender == 'male' ? 'https://i.ibb.co/5cPD8dP/doctors-man.jpg' : 'https://i.ibb.co/J5vKKQt/doctors-women.jpg'),
                     'specialty' => $this->specialty->title,
                 ];
             }),
