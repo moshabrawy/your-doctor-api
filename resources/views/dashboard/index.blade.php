@@ -55,29 +55,25 @@
                 <div class="card-body">
                     <h4 class="card-title">Recent Bookings</h4>
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th> ID </th>
                                     <th> Patient Name </th>
                                     <th> Doctor Name</th>
-                                    <th> Appointment Day </th>
-                                    <th> Start Time </th>
-                                    <th> End Time </th>
-
+                                    <th> Booking Day </th>
+                                    <th> Status </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($recentAppointments as $appointment)
-                                <tr>
-                                    <td>{{$appointment->id}}</td>
-                                    {{-- <td>{{$appointment->patient->name}}</td> --}}
-                                    {{-- <td>{{$appointment->doctor->name}}</td> --}}
-                                    {{-- <td>{{$appointment->day}}</td> --}}
-                                    <td>{{$appointment->start_time}}</td>
-                                    <td>{{$appointment->end_time}}</td>
-
-                                </tr>
+                                    <tr>
+                                        <td>10{{ $loop->index }}</td>
+                                        <td>{{ $appointment->user->name }}</td>
+                                        <td>{{ $appointment->doctor->name }}</td>
+                                        <td>{{ $appointment->day_date }}</td>
+                                        <td>{{ $appointment->status }}</td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

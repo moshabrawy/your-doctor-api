@@ -18,7 +18,7 @@ Route::group(['prefix' => '/', 'namespace' => 'Auth', 'middleware' => 'guest'], 
 });
 Route::get('/', fn () => redirect()->route('Dashboard'));
 Route::group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () {
-    Route::GET('/', [AdminController::class, 'userCount'])->name('Dashboard');
+    Route::GET('/', [AdminController::class, 'dashboard'])->name('Dashboard');
     Route::view('admin/profile/', 'dashboard.user.profile')->name('AdminProfile');
 
     Route::GET('logout', [AdminAuthController::class, 'logout'])->name('Logout');
