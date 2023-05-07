@@ -26,7 +26,7 @@
 </head>
 
 <body>
-    @auth
+    @auth('admin')
         <div class="container-scroller">
             <!-- partial:partials/_navbar.html -->
             <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -55,9 +55,9 @@
                         <li class="nav-item nav-profile dropdown">
                             <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown"
                                 aria-expanded="false">
-                                @if (auth()->user()->avatar != null)
+                                @if (auth('admin')->avatar != null)
                                     <div class="nav-profile-img">
-                                        <img class="profile_img_icon" src="{{ asset(auth()->user()->avatar) }}"
+                                        <img class="profile_img_icon" src="{{ asset(auth('admin')->avatar) }}"
                                             alt="profile" title="profile">
                                         <span class="availability-status online"></span>
                                     </div>
@@ -69,7 +69,7 @@
                                     </div>
                                 @endif
                                 <div class="nav-profile-text">
-                                    <p class="mb-1 text-black">{{ auth()->user()->name }}</p>
+                                    <p class="mb-1 text-black">{{ auth('admin')->name }}</p>
                                 </div>
                             </a>
                             <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
@@ -198,7 +198,6 @@
         </div>
         <!-- container-scroller -->
     @endauth
-
 
     <!-- plugins:js -->
     <x-notify::notify />

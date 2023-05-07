@@ -19,7 +19,7 @@ Route::group(['prefix' => '/', 'namespace' => 'Auth', 'middleware' => 'guest'], 
 Route::get('/', fn () => redirect()->route('Dashboard'));
 
 Route::group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () {
-    Route::get('/', fn () => redirect()->route('Dashboard'));
+    // Route::get('/', fn () => redirect()->route('Dashboard'));
     Route::GET('/', [AdminController::class, 'userCount'])->name('Dashboard');
     Route::view('admin/profile/', 'dashboard.user.profile')->name('AdminProfile');
 
