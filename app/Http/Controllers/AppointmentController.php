@@ -53,7 +53,7 @@ class AppointmentController extends Controller
         $dates = [];
         $currentDate = Carbon::parse($start_date)->next($request->day_name);
         while ($currentDate->lte(Carbon::parse($end_date))) {
-            $dates[] = $currentDate->format('Y-m-d');
+            $dates[] = $currentDate->format('Y/m/d');
             $currentDate = $currentDate->next($request->day_name);
         }
         return response()->json(['dates' => $dates, 'status_code' => 200]);
