@@ -162,12 +162,12 @@
                                 <ul class="nav flex-column sub-menu">
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('specialties.create') }}">
-                                            <span class="menu-title">Create Specialty</span>
+                                            <span class="menu-title">Add New</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ url('dashboard/specialties/show') }}">
-                                            <span class="menu-title">All Specialties</span>
+                                            <span class="menu-title">Manage</span>
                                         </a>
                                     </li>
                                 </ul>
