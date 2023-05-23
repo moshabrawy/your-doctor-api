@@ -120,28 +120,64 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('dashboard/user/add') }}">
-                            <span class="menu-title">Add User</span>
-                            <i class="mdi mdi-account-multiple menu-icon"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('dashboard/user/doctors') }}">
+                        <a class="nav-link collapsed" data-toggle="collapse" href="#doctors-pages" aria-expanded="false" aria-controls="Specialties-pages">
                             <span class="menu-title">Doctors</span>
-                            <i class="fa fa-user-md menu-icon"></i>
+                            <i class="menu-arrow"></i>
                         </a>
+                        <div class="collapse" id="doctors-pages">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('doctors.create') }}">
+                                        <span class="menu-title">Add New</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('doctors.index') }}">
+                                        <span class="menu-title">Manage</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('dashboard/user/patients') }}">
+                        <a class="nav-link collapsed" data-toggle="collapse" href="#patients-pages" aria-expanded="false" aria-controls="Specialties-pages">
                             <span class="menu-title">Patients</span>
-                            <i class="mdi mdi-account-multiple menu-icon"></i>
+                            <i class="menu-arrow"></i>
                         </a>
+                        <div class="collapse" id="patients-pages">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('patients.create') }}">
+                                        <span class="menu-title">Add New</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('patients.index') }}">
+                                        <span class="menu-title">Manage</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('appointments.index') }}">
+                        <a class="nav-link collapsed" data-toggle="collapse" href="#appointments-pages" aria-expanded="false" aria-controls="Specialties-pages">
                             <span class="menu-title">Appointments</span>
-                            <i class="mdi mdi-bookmark-outline  menu-icon"></i>
+                            <i class="menu-arrow"></i>
                         </a>
+                        <div class="collapse" id="appointments-pages">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('appointments.create') }}">
+                                        <span class="menu-title">Add New</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('appointments.index') }}">
+                                        <span class="menu-title">Manage</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link collapsed" data-toggle="collapse" href="#Specialties-pages" aria-expanded="false" aria-controls="Specialties-pages">
@@ -156,7 +192,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('dashboard/specialties/show') }}">
+                                    <a class="nav-link" href="{{ route('specialties.index') }}">
                                         <span class="menu-title">Manage</span>
                                     </a>
                                 </li>

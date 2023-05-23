@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
-use App\Models\Specialty;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Specialty;
 
 class SpecialtyController extends Controller
 {
@@ -12,15 +13,8 @@ class SpecialtyController extends Controller
     public function index()
     {
         $allSpecialties = Specialty::paginate(10);
-        return view('dashboard.specialties.all', compact('allSpecialties'));
+        return view('dashboard.specialties.manage', compact('allSpecialties'));
     }
-
-    public function indexSpec()
-    {
-        $allSpecialties = Specialty::all();
-        return view('dashboard/user/add', compact('allSpecialties'));
-    }
-
 
     public function show()
     {

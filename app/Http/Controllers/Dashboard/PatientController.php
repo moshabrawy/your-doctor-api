@@ -1,66 +1,100 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
-use App\Models\User;
-use App\Models\Address;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\User;
 
 class PatientController extends Controller
 {
-    public function showPatients()
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
     {
-        $allPatients = User::where('user_type', 3)->paginate(10);
-        return view('dashboard.user.patients', compact('allPatients'));
+        $allPatients = User::where('user_type', '1')->paginate(10);
+        return view('dashboard.patient.manage', compact('allPatients'));
     }
 
-    public function regPatient(Request $request)
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
-        $request->validate([
-            'pat_name'        => 'required',
-            'email'           => 'email|required',
-            'password'        => 'required',
-            'confirmPassword' => 'required|same:password',
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'phone'           => 'required',
-            'gender'          => 'required',
-            // 'user_type'       => '3',
+        return view('dashboard.patient.add');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'phone' => 'required|unique:users',
+            'password' => 'required|string|confirmed'
         ]);
 
-        $user = new User();
-        $user->name = $request->pat_name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->gender = $request->gender;
-        $user->birth_date = $request->birth_date;
-        $user->phone = $request->phone;
-        $user->user_type = 3;
-        //upload user avatar
-        if ($request->hasFile('avatar')) {
-            $user->avatar = Storage::disk('public')->put('upload/avatars', $request->file('avatar'));
+        if ($validation->fails()) {
+            session()->flash('error', 'Sorry! Try Again.' . $validation->errors()->first());
+            return redirect()->back();
         }
-        $user->save();
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'user_type' => '1',
+            'password' => Hash::make($request->password),
+        ]);
 
-        $address = new Address();
-        $address->city = $request->city;
-        $address->state = $request->state;
-        $address->postal_code = $request->postal_code;
-        $address->user_id = $user->id;
-
-        $address->save();
-
-        return redirect()->route('Patients');
+        notify()->success('You are awesome, The Doctor account has been created successfull!');
+        return redirect()->route('patients.index');
     }
 
-    public function search(Request $request){
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $user = User::findOrFail($id);
+        return view('dashboard.patient.edit', compact('user'));
+    }
+
+    /**
+     * Show the form for search about specified resource.
+     */
+    public function search(Request $request)
+    {
         $search = $request->get('search');
-        $allPatients = User::where('name' , 'like', '%'.$search.'%')->where('user_type', 3)->paginate(10);
+        $allPatients = User::where('name', 'like', '%' . $search . '%')->where('user_type', 3)->paginate(10);
         return view('dashboard.user.patients', compact('allPatients'));
     }
 
-    public function destroy($id)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
     {
         $patient = User::findOrFail($id);
         $patient->delete();

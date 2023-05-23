@@ -8,13 +8,6 @@
             </span>
             Specialties
         </h3>
-        <nav aria-label="breadcrumb">
-            <ul class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">
-                    <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
-                </li>
-            </ul>
-        </nav>
     </div>
     <div class="row">
         <!-- Table Content -->
@@ -40,7 +33,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="search-field d-none d-md-block">
-                                <form class="align-items-center h-100" action="{{ route('SearchSpecialty') }}"
+                                <form class="align-items-center h-100" action="{{ route('specialties.search') }}"
                                     method="GET">
                                     <div class="input-group">
                                         <input type="text" class="form-control bg-transparent border-0"

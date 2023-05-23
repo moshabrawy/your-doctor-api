@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\Storage;
 
 trait FilesTrait
 {
+    /**
+     * UploudImage Function
+     * Upload Image has many types
+     */
+    function UploudAvatar($img, $path)
+    {
+        $imageName = uniqid() . '.' . $img->getClientOriginalExtension();
+        $img->move(public_path('uploads/images/' . $path), $imageName);
+        return $imageName;
+        // old func => Storage::disk('public')->put('upload/avatars', $request->file('avatar'));
+    }
 
     function UploudImage($img, $path)
     {
@@ -27,8 +38,7 @@ trait FilesTrait
         if ($files) {
             foreach ($files as $file) {
                 if (Str::contains($file, $image_types)) {
-                    $img_type = Str::contains($file, 'data:image/jpg;base64') ? 'jpg' :
-                        (Str::contains($file, 'data:image/png;base64') ? 'png' : 'jpeg');
+                    $img_type = Str::contains($file, 'data:image/jpg;base64') ? 'jpg' : (Str::contains($file, 'data:image/png;base64') ? 'png' : 'jpeg');
                     $image = str_replace($image_types, '', $file);
                     $image = str_replace(' ', '+', $image);
                     $imageName = uniqid() . '.' . $img_type;

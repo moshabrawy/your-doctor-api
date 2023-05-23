@@ -48,15 +48,6 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Appointment::class);
     }
-    // public function getAvatarAttribute($avatar)
-    // {
-    //     if ($avatar != '') {
-    //         return url('uploads/images/profile/' . $avatar);
-    //     } else {
-    //         return url('assets/images/user.png');
-    //     }
-    // }
-
 
     // Rest omitted for brevity
 

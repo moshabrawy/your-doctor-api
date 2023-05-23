@@ -66,9 +66,29 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="password1" class="col-sm-3 col-form-label">Password</label>
+                        <label for="password1" class="col-sm-3 col-form-label">Current Password</label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control" name="password" id="password1" placeholder="Password"><br>
+                            <input type="password" readonly onfocus="this.removeAttribute('readonly');" class="form-control" name="current_password" id="password1" placeholder="Current Password"><br>
+                            @if (session()->has('current_password'))
+                            <div class="alert alert-danger">
+                                Current password does not match
+                            </div>
+                            @elseif (session()->has('validator'))
+                            <div class="alert alert-danger">
+                                Current password is requierd
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="password2" class="col-sm-3 col-form-label">New Password</label>
+                        <div class="col-sm-9">
+                            <input type="password" readonly onfocus="this.removeAttribute('readonly');" class="form-control" name="password" id="password2" placeholder="New Password"><br>
+                            @if (session()->has('new_password'))
+                            <div class="alert alert-danger">
+                                New Password cann't be same as your current password
+                            </div>
+                            @endif
                         </div>
                     </div>
                     <div class="form-group row">
@@ -86,8 +106,8 @@
                         <label for="gender1" class="col-sm-3 col-form-label">Gender</label>
                         <div class="col-sm-9">
                             <select name="gender" id="gender1" class="form-control">
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                <option value="male" {{auth('admin')->user()->gender==="male"?"selected":""}}>Male</option>
+                                <option value="female" {{auth('admin')->user()->gender==="female"?"selected":""}}>Female</option>
                             </select><br>
                             @error('gender')
                             <div class="alert alert-danger">
