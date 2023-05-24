@@ -24,7 +24,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view('dashboard.patient.add');
+        return view('dashboard.patient.create');
     }
 
     /**
@@ -32,17 +32,14 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        $validation = Validator::make($request->all(), [
+        $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'phone' => 'required|unique:users',
-            'password' => 'required|string|confirmed'
+            'password' => 'required',
+            'confirm_password' => 'required|same:password'
         ]);
 
-        if ($validation->fails()) {
-            session()->flash('error', 'Sorry! Try Again.' . $validation->errors()->first());
-            return redirect()->back();
-        }
         User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -70,16 +67,8 @@ class PatientController extends Controller
     public function search(Request $request)
     {
         $search = $request->get('search');
-        $allPatients = User::where('name', 'like', '%' . $search . '%')->where('user_type', 3)->paginate(10);
-        return view('dashboard.user.patients', compact('allPatients'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $allPatients = User::where('name', 'like', '%' . $search . '%')->where('user_type', '1')->paginate(10);
+        return view('dashboard.patient.manage', compact('allPatients'));
     }
 
     /**
@@ -87,17 +76,45 @@ class PatientController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-    }
+        $user = User::where('id', $id)->first();
+        if ($user) {
+            $request->validate([
+                'name' => 'sometimes|required|string',
+                'email' => 'sometimes|required|email|unique:users,email,' . $user->id,
+                'phone' => 'sometimes|required|unique:users,phone,' . $user->id,
+            ]);
 
+            $user->name = $request->name ?? $user->name;
+            $user->email = $request->email ?? $user->email;
+            $user->phone = $request->phone ?? $user->phone;
+            if (!empty($request->password)) {
+                $request->validate([
+                    'password' => 'sometimes|required',
+                    'confirm_password' => 'sometimes|required|same:password'
+                ]);
+                $user->password = Hash::make($request->password);
+            }
+            $user->save();
+            notify()->success('You are awesome, The Doctor account has been created successfull!');
+            return redirect()->route('doctors.index');
+        } else {
+            notify()->error('Opps!');
+            return redirect()->back();
+        }
+    }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $patient = User::findOrFail($id);
-        $patient->delete();
-        return redirect()->route('Patients')->with('success', 'Done');
+        $doctor = User::find($id);
+        if ($doctor) {
+            $doctor->delete();
+            notify()->success('You are awesome, The Patient account has been deleted successfull!');
+        } else {
+            notify()->error('Opps!, The Doctor account has been deleted before');
+        }
+        return redirect()->back();
     }
 }

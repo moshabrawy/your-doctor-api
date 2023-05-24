@@ -26,6 +26,7 @@
 .view-div {
     margin: 30px;
 }
+
 .view {
     margin: 22px;
     padding: 10px 30px;
@@ -33,10 +34,12 @@
     border-radius: 5px;
     color: white;
 }
+
 .a {
     color: black;
     padding: 10px 20px;
 }
+
 /* view */
 .name-center {
     display: flex;
@@ -83,6 +86,7 @@
 .personal p {
     font-size: 20px;
 }
+
 .personal p i {
     color: #047edf;
 }
@@ -102,10 +106,12 @@
     height: 100px;
     margin: 0 auto 5px;
 }
+
 .nav_specialty_icon i {
     font-size: 90px;
     color: #bba8bff5;
 }
+
 .specialty_name {
     font-size: 30px;
     margin: 10px 0;
@@ -115,8 +121,17 @@
     overflow: auto;
 }
 
+.no_results {
+    border: 2px dashed #DDD;
+    background-color: #f8f9fa73;
+    padding: 20px 0;
+    margin: 10px auto;
+    border-radius: 10px;
+}
+
 .no_results img {
-    width: 200px;
+    width: 150px;
+    margin: auto;
 }
 
 .sidebar .nav .nav-item.nav-profile .nav-link .nav-profile-image img {

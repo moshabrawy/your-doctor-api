@@ -66,127 +66,75 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Edit DR. {{$user->name}} Information</h4><br>
-                <form method="POST" action="{{ route('user.update', $user->id) }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('doctors.update', $user->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('patch')
                     <div class="form-group row">
-                        <label for="pat_name" class="col-sm-3 col-form-label">Name</label>
+                        <label for="name" class="col-sm-3 col-form-label">Doctor Name</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" value="{{ $user->name }}"><br>
+                            <input type="text" value="{{ $user->name }}" class="form-control" id="name" name="name" placeholder="Full Name">
+                            @error('name')
+                            <div class="alert alert-danger mt-2 mb-1">
+                                {{ $message  }}
+                            </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="email1" class="col-sm-3 col-form-label">Email</label>
+                        <label for="email" class="col-sm-3 col-form-label">Email</label>
                         <div class="col-sm-9">
-                            <input type="email" class="form-control" id="email1" name="email" placeholder="Email" value="{{ $user->email }}"><br>
+                            <input type="email" value="{{ $user->email }}" class="form-control" id="email" name="email" placeholder="Email">
                             @error('email')
-                            <div class="alert alert-danger">
-                                {{ $message }}
+                            <div class="alert alert-danger mt-2 mb-1">
+                                {{ $message  }}
                             </div>
                             @enderror
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="password1" class="col-sm-3 col-form-label">Password</label>
+                        <label for="phone" class="col-sm-3 col-form-label">Phone</label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control" name="password" id="password1" placeholder="Password"><br>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="phone1" class="col-sm-3 col-form-label">Mobile</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="phone1" name="phone" placeholder="Mobile number" value="{{ $user->phone }}"><br>
+                            <input type="number" value="{{ $user->phone }}" class="form-control" id="phone" name="phone" placeholder="phone">
                             @error('phone')
-                            <div class="alert alert-danger">
-                                {{ $message }}
+                            <div class="alert alert-danger mt-2 mb-1">
+                                {{ $message  }}
                             </div>
                             @enderror
                         </div>
                     </div>
-                    @if ($user->user_type == 2)
+                    <div class="form-group row">
+                        <label for="password" class="col-sm-3 col-form-label">Password</label>
+                        <div class="col-sm-9">
+                            <input readonly onfocus="this.removeAttribute('readonly');" type="password" class="form-control" name="password" id="password" placeholder="Password">
+                            @error('password')
+                            <div class="alert alert-danger mt-2 mb-1">
+                                {{ $message  }}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="confirmPassword" class="col-sm-3 col-form-label">confirm Password</label>
+                        <div class="col-sm-9">
+                            <input readonly onfocus="this.removeAttribute('readonly');" type="password" class="form-control" id="confirmPassword" name="confirm_password" placeholder="confirm Password">
+                            @error('confirm_password')
+                            <div class="alert alert-danger mt-2 mb-1">
+                                {{ $message  }}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <label for="specialty" class="col-sm-3 col-form-label">Specialty</label>
                         <div class="col-sm-9">
-                            <select name="specialty" id="specialty" class="form-control">
+                            <select name="specialty_id" id="specialty" class="form-control">
                                 @foreach ($allSpecialties as $specialty)
-                                <option value="{{ $specialty->id }}" {{ $specialty->id == $user->doctor->specialty_id ? 'selected' : '' }}>
-                                    {{ $specialty->name }}
-                                </option>
+                                <option value="{{ $specialty->id }}" {{ $specialty->id === $user->doctor_info->specialty_id ? 'selected' : '' }}>{{ $specialty->title }}</option>
                                 @endforeach
-                            </select><br>
-                            @error('specialty')
-                            <div class="alert alert-danger">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                    </div>
-                    @endif
-                    <div class="form-group row">
-                        <label for="gender1" class="col-sm-3 col-form-label">Gender</label>
-                        <div class="col-sm-9">
-                            <select name="gender" id="gender1" class="form-control">
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select><br>
-                            @error('gender')
-                            <div class="alert alert-danger">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="birth_date1" class="col-sm-3 col-form-label">Birth
-                            Date</label>
-                        <div class="col-sm-9">
-                            <input type="date" class="form-control" id="birth_date1" name="birth_date" placeholder="birth Date" value="{{ $user->birth_date }}"><br>
-                            @error('birth_date')
-                            <div class="alert alert-danger">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="city" class="col-sm-3 col-form-label">Address</label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="city" name="city" placeholder="City" value="{{ $user->address }}"><br>
-                            @error('city')
-                            <div class="alert alert-danger">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                        <div class="col-sm-3">
-                            <select name="state" id="states" class="form-control">
-
                             </select>
-
-                            <br>
-                            @error('state')
-                            <div class="alert alert-danger">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                    </div>
-                    @if ($user->user_type == 2)
-                    <div class="form-group row">
-                        <label for="bio" class="col-sm-3 col-form-label">Bio</label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" name="bio" id="bio" cols="30" rows="10">{{ $user->doctor->bio }}</textarea>
-                        </div>
-                    </div>
-                    @endif
-                    <div class="form-group row">
-                        <label for="avatar" class="col-sm-3 col-form-label">Profile
-                            Photo</label>
-                        <div class="col-sm-9">
-                            <input type="file" class="form-control" id="avatar" name="avatar" placeholder="Profile Photo"><br>
-                            @error('avatar')
-                            <div class="alert alert-danger">
-                                {{ $message }}
+                            @error('specialty_id')
+                            <div class="alert alert-danger mt-2 mb-1">
+                                {{ $message  }}
                             </div>
                             @enderror
                         </div>

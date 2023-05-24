@@ -6,9 +6,12 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Specialty;
+use App\Traits\FilesTrait;
+use Illuminate\Support\Facades\Storage;
 
 class SpecialtyController extends Controller
 {
+    use FilesTrait;
 
     public function index()
     {
@@ -29,15 +32,20 @@ class SpecialtyController extends Controller
 
     public function store(Request $request)
     {
+        return $request;
+
         $request->validate([
-            "name" => "required|unique:specialties,name"
+            "name" => "required|unique:specialties,name",
+            "image" => "required|image|mimes:jpeg,png,jpg|max:5128",
+            "brief" => "required|max:500",
         ]);
-        $specialty = new Specialty();
-        $specialty->name = $request->name;
-        $specialty->spec_icon = $request->spec_icon;
-        $specialty->about = $request->about;
-        $specialty->save();
-        return redirect()->route('specialties.index')->with('specialtyCreated' , 'Done!');
+        Specialty::create([
+            'ttle' => $request->name,
+            'image' => Storage::disk('public')->put('uploads/images/specialities', $request->file('image')),
+            'brief' => $request->brief,
+        ]);
+        notify()->success('You are awesome, Specialty has been created successfull!');
+        return redirect()->route('specialties.index');
     }
 
 

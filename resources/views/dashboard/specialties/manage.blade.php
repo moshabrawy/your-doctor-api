@@ -57,7 +57,7 @@
                             <div class=" py-3">
                                 <img src="{{asset('assets/images/no-results.png')}}" alt="No Results">
                             </div>
-                            <h3 class="text-center text-info">Sorry, We couldn't find any results</h3>
+                            <h3 class="text-center text-gray-200">Sorry, We couldn't find any results</h3>
                         </div>
                     @else
                         <table class="table table-striped text-center">
