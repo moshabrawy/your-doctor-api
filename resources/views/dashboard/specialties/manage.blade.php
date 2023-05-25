@@ -60,7 +60,7 @@
                                     <th> ID </th>
                                     <th> Specialty Photo </th>
                                     <th> Specialty Title </th>
-                                    <th> Specialty Breif</th>
+                                    <th> Specialty Brief</th>
                                     <th> action </th>
                                 </tr>
                             </thead>
@@ -68,9 +68,11 @@
                                 @foreach ($allSpecialties as $specialty)
                                     <tr>
                                         <td>{{ $specialty->id }}</td>
-                                        <td>{{ $specialty->image }}</td>
+                                        <td>
+                                            <img src="{{ $specialty->image }}" alt="{{ $specialty->title }}" />
+                                        </td>
                                         <td>{{ $specialty->title }}</td>
-                                        <td>{{ $specialty->breif }}</td>
+                                        <td>{{ $specialty->brief }}</td>
                                         <td>
                                             <a href="{{ route('specialties.edit', ['specialty' => $specialty->id]) }}"
                                                 class="btn btn-inverse-warning btn-sm">

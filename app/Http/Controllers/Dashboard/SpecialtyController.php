@@ -32,16 +32,15 @@ class SpecialtyController extends Controller
 
     public function store(Request $request)
     {
-        return $request;
-
         $request->validate([
-            "name" => "required|unique:specialties,name",
+            "title" => "required|unique:specialties,title",
             "image" => "required|image|mimes:jpeg,png,jpg|max:5128",
             "brief" => "required|max:500",
         ]);
         Specialty::create([
-            'ttle' => $request->name,
-            'image' => Storage::disk('public')->put('uploads/images/specialities', $request->file('image')),
+            'title' => $request->title,
+            'image' => $this->UploudAvatar($request->file('image'), 'specialities'),
+            // Storage::disk('public')->put('', ),
             'brief' => $request->brief,
         ]);
         notify()->success('You are awesome, Specialty has been created successfull!');
