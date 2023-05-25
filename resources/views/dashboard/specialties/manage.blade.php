@@ -46,15 +46,9 @@
                             </div>
                         </div>
                     </div>
-
-                    @if (session()->has('success'))
-                        <div class="alert alert-info">Delete Successfull !</div>
-                    @elseif (session()->has('error'))
-                        <div class="alert alert-danger">Delete Fail !</div>
-                    @endif
                     @if ($allSpecialties->isEmpty())
-                        <div class="no_results  text-center">
-                            <div class=" py-3">
+                        <div class="no_results text-center">
+                            <div class="py-3">
                                 <img src="{{asset('assets/images/no-results.png')}}" alt="No Results">
                             </div>
                             <h3 class="text-center text-gray-200">Sorry, We couldn't find any results</h3>
@@ -64,9 +58,9 @@
                             <thead class=" blue-edit">
                                 <tr>
                                     <th> ID </th>
-                                    <th> Specialty Name </th>
-                                    <th> Specialty About</th>
-                                    <th> Specialty Icon </th>
+                                    <th> Specialty Photo </th>
+                                    <th> Specialty Title </th>
+                                    <th> Specialty Breif</th>
                                     <th> action </th>
                                 </tr>
                             </thead>
@@ -74,9 +68,9 @@
                                 @foreach ($allSpecialties as $specialty)
                                     <tr>
                                         <td>{{ $specialty->id }}</td>
-                                        <td>{{ $specialty->name }}</td>
-                                        <td>{{ $specialty->about }}</td>
-                                        <td>{{ $specialty->spec_icon }}</td>
+                                        <td>{{ $specialty->image }}</td>
+                                        <td>{{ $specialty->title }}</td>
+                                        <td>{{ $specialty->breif }}</td>
                                         <td>
                                             <a href="{{ route('specialties.edit', ['specialty' => $specialty->id]) }}"
                                                 class="btn btn-inverse-warning btn-sm">
