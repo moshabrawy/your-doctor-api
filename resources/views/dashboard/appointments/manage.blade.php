@@ -62,12 +62,12 @@
                                         <td>{{ \Carbon\Carbon::parse($appointment->day_date)->format('d M Y') }}</td>
                                         <td>{{ $appointment->status }}</td>
                                         <td>
-                                            <a href="{{ route('appointments.edit', ['appointment' => $appointment->id]) }}"
+                                            {{-- <a href="{{ route('appointments.edit', ['appointment' => $appointment->id]) }}"
                                                 class="btn btn-inverse-warning btn-sm">
                                                 <i class="mdi mdi-lead-pencil"></i>
-                                            </a>
+                                            </a> --}}
                                             <form class="del_form"
-                                                action="{{ route('appointments.destroy', ['appointment' => $appointment->id]) }}"
+                                                action="{{ route('appointments.destroy', $appointment->id) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')
