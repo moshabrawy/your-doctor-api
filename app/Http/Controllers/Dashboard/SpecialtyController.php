@@ -40,7 +40,6 @@ class SpecialtyController extends Controller
         Specialty::create([
             'title' => $request->title,
             'image' => $this->UploudAvatar($request->file('image'), 'specialities'),
-            // Storage::disk('public')->put('', ),
             'brief' => $request->brief,
         ]);
         notify()->success('You are awesome, Specialty has been created successfull!');

@@ -34,7 +34,7 @@
                     <label class="badge badge-gradient-primary">{{ ' ' . $specialty->title . ' ' }}</label>
                     Information
                 </h4><br>
-                <form method="POST" action="{{ route('specialties.update', $specialty->id) }}">
+                <form method="POST" action="{{ route('specialties.update', $specialty->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('patch')
                     <div class="form-group row">
@@ -51,7 +51,7 @@
                     <div class="form-group row">
                         <label for="image" class="col-sm-3 col-form-label">Specialty Photo</label>
                         <div class="col-sm-9">
-                            <input type="file" class="form-control" id="image" name="image" placeholder="ex:- mdi mdi-account">
+                            <input type="file" class="form-control" id="image" name="image">
                             @error('image')
                             <div class="alert alert-danger mt-2 mb-1">
                                 {{ $message  }}

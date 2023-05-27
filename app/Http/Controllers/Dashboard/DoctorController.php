@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DoctorInfo;
 use App\Models\Specialty;
 use App\Models\User;
-use Illuminate\Support\Facades\Redirect;
 
 class DoctorController extends Controller
 {

@@ -115,6 +115,7 @@
 .specialty_name {
     font-size: 30px;
     margin: 10px 0;
+    white-space: normal;
 }
 
 .card-body {

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -48,7 +47,7 @@ class PatientController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        notify()->success('You are awesome, The Doctor account has been created successfull!');
+        notify()->success('You are awesome, The Patient account has been created successfull!');
         return redirect()->route('patients.index');
     }
 
@@ -95,8 +94,8 @@ class PatientController extends Controller
                 $user->password = Hash::make($request->password);
             }
             $user->save();
-            notify()->success('You are awesome, The Doctor account has been created successfull!');
-            return redirect()->route('doctors.index');
+            notify()->success('You are awesome, The Patient account has been created successfull!');
+            return redirect()->route('patients.index');
         } else {
             notify()->error('Opps!');
             return redirect()->back();
@@ -108,12 +107,12 @@ class PatientController extends Controller
      */
     public function destroy(string $id)
     {
-        $doctor = User::find($id);
-        if ($doctor) {
-            $doctor->delete();
+        $patient = User::find($id);
+        if ($patient) {
+            $patient->delete();
             notify()->success('You are awesome, The Patient account has been deleted successfull!');
         } else {
-            notify()->error('Opps!, The Doctor account has been deleted before');
+            notify()->error('Opps!, The Patient account has been deleted before');
         }
         return redirect()->back();
     }

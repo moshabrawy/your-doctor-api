@@ -34,11 +34,6 @@
                         </div>
                     </div>
 
-                    @if (session()->has('success'))
-                        <div class="alert alert-info">Delete Successfull !</div>
-                    @elseif (session()->has('error'))
-                        <div class="alert alert-danger">Delete Fail !</div>
-                    @endif
                     @if ($allAppointments->isEmpty())
                         <div class="no_results  text-center">
                             <div class=" py-3">
@@ -53,9 +48,8 @@
                                     <th> ID </th>
                                     <th> Patient Name </th>
                                     <th> Doctor Name</th>
-                                    <th> Start Time </th>
-                                    <th> End Time </th>
-                                    <th> Appointment Day </th>
+                                    <th> Appointment Date </th>
+                                    <th> Status </th>
                                     <th> action </th>
                                 </tr>
                             </thead>
@@ -63,11 +57,10 @@
                                 @foreach ($allAppointments as $appointment)
                                     <tr>
                                         <td> {{ $appointment->id }} </td>
-                                        <td> {{ $appointment->patient->name }}</td>
+                                        <td>{{ $appointment->user->name }}</td>
                                         <td> {{ $appointment->doctor->name }}</td>
-                                        <td> {{ $appointment->start_time }}</td>
-                                        <td> {{ $appointment->end_time }}</td>
-                                        <td> {{ $appointment->day }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($appointment->day_date)->format('d M Y') }}</td>
+                                        <td>{{ $appointment->status }}</td>
                                         <td>
                                             <a href="{{ route('appointments.edit', ['appointment' => $appointment->id]) }}"
                                                 class="btn btn-inverse-warning btn-sm">

@@ -25,7 +25,7 @@ class AppointmentController extends Controller
     {
         $allDoctors = User::get()->where('user_type', 2);
         $allPatients = User::get()->where('user_type', 3);
-        return view('dashboard.appointments.add', compact('allPatients', 'allDoctors'));
+        return view('dashboard.appointments.create', compact('allPatients', 'allDoctors'));
     }
 
     /**
@@ -61,8 +61,8 @@ class AppointmentController extends Controller
     public function search(Request $request)
     {
         $search = $request->get('search');
-        $allAppointments = Appointment::where('day', 'like', '%' . $search . '%')->paginate(10);
-        return view('dashboard.appointments.all', compact('allAppointments'));
+        $allAppointments = Appointment::where('day_date', 'like', '%' . $search . '%')->paginate(10);
+        return view('dashboard.appointments.manage', compact('allAppointments'));
     }
 
     /**

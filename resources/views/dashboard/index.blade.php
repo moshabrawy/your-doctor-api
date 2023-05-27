@@ -61,7 +61,7 @@
                                     <th> ID </th>
                                     <th> Patient Name </th>
                                     <th> Doctor Name</th>
-                                    <th> Booking Day </th>
+                                    <th> Booking Date </th>
                                     <th> Status </th>
                                 </tr>
                             </thead>
@@ -71,7 +71,7 @@
                                         <td>10{{ $loop->index }}</td>
                                         <td>{{ $appointment->user->name }}</td>
                                         <td>{{ $appointment->doctor->name }}</td>
-                                        <td>{{ $appointment->day_date }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($appointment->day_date)->format('d M Y') }}</td>
                                         <td>{{ $appointment->status }}</td>
                                     </tr>
                                 @endforeach

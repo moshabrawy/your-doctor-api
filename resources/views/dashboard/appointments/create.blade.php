@@ -8,31 +8,11 @@
             </span>
             Create New Appointment
         </h3>
-        <nav aria-label="breadcrumb">
-            <ul class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">
-                    <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
-                </li>
-            </ul>
-        </nav>
     </div>
-    @auth
+    @auth('admin')
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
-                    @if (session()->has('appointmentCreated'))
-                        <div class="card card-inverse-success" id="context-menu-open">
-                            <div class="card-body">
-                                <p class="card-text"> Greate! Created Successfully</p>
-                            </div>
-                        </div>
-                    @elseif (session()->has('error'))
-                        <div class="card card-inverse-danger" id="context-menu-open">
-                            <div class="card-body">
-                                <p class="card-text"> oops! Created Fail</p>
-                            </div>
-                        </div>
-                    @endif
                     <div class="card-body">
                         <h4 class="card-title">Add New Appointment
                         </h4><br>
@@ -92,7 +72,10 @@
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-gradient-primary mr-2">Create</button>
-                                <button class="btn btn-light">Cancel</button>
+                                <button class="btn btn-light" type="reset">
+                                    <i class="mdi mdi-reload btn-icon-prepend"></i>
+                                    Reset
+                                </button>
                             </div>
                         </form>
                     </div>
