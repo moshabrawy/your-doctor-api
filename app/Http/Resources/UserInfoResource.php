@@ -25,7 +25,7 @@ class UserInfoResource extends JsonResource
             'avatar' => $this->avatar !=  null ? url('uploads/images/profile/' . $this->avatar) : url('assets/images/user.png'),
             'gender' => $this->gender,
             'phone' => $this->phone,
-            'birth_date' => Carbon::parse($this->birth_date)->format('d, M, Y'),
+            'birth_date' => Carbon::parse($this->birth_date)->format('Y, m, d'),
             $this->mergeWhen($this->address, function () {
                 return ["addresses" =>  AddressResource::collection($this->address)];
             }),
