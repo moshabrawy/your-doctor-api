@@ -35,37 +35,43 @@ class UserInfoController extends Controller
                 'phone' => 'sometimes|required|unique:users,phone,' . $user->id,
                 'gender' => ['sometimes', 'required', Rule::in(['male', 'female'])],
                 'birth_date' => 'sometimes|required',
-                'current_password' => 'sometimes|required|string',
-                'password' => Rule::requiredIf($request->has('current_password')), 'string|confirmed',
                 'avatar' => 'sometimes|required',
                 "avatar.*" => 'sometimes|base64mimes:jpg,png,jpeg|base64max:5128'
             ]);
             if ($validation->fails()) {
                 return response()->json(['error' => $validation->errors(), 'status_code' => 400], 400);
-            } else {
-                // return Carbon::parse($request->birth_date)->format('Y-m-d');
-
-                //Update User Password
-                if (isset($request->password)) {
-                    if (!(Hash::check($request->get('current_password'), auth('api')->user()->password))) {
-                        return response()->json(['error' => 'Current password does not match', 'Status Code' => 400], 400);
-                    }
-                    if (strcmp($request->get('current_password'), $request->get('password')) == 0) {
-                        return response()->json(['error' => 'New Password cannot be same as your current password', 'Status Code' => 400], 400);
-                    }
-                    $user->password = Hash::make($request->password);
-                } else {
-                    $name = $request->first_name . ' ' . $request->last_name;
-                    $user->name = $name ?? $user->name;
-                    $user->email = $request->email ?? $user->email;
-                    $user->phone = $request->phone ?? $user->phone;
-                    $user->gender = $request->gender ?? $user->gender;
-                    // $user->birth_date = Carbon::createFromFormat('d, M, Y', $request->birth_date)->format('Y-m-d') ?? $user->birth_date;
-                    $user->avatar = $request->has('avatar') ? $this->UploudImage($request->avatar, 'profile') : $user->avatar;
-                }
-                $user->save();
-                return response()->json(['message' => 'Data updated success', 'status_code' => 200]);
             }
+
+            $first_name = $request->first_name ?? explode(" ", $user->name)[0];
+            $last_name = $request->last_name ?? explode(" ", $user->name, 2)[1];
+            $full_name = $first_name . ' ' . $last_name;
+            $user->name = $full_name;
+            $user->email = $request->email ?? $user->email;
+            $user->phone = $request->phone ?? $user->phone;
+            $user->gender = $request->gender ?? $user->gender;
+            $user->birth_date = $request->birth_date ?? $user->birth_date;
+            $user->avatar = $request->has('avatar') ? $this->UploudImage($request->avatar, 'profile') : $user->avatar;
+
+            //Update User Password
+            if (isset($request->password)) {
+                $validator = Validator::make($request->all(), [
+                    'current_password' => 'required',
+                    'password' => 'required', 'confirmed',
+                ]);
+                if ($validator->fails()) {
+                    return response()->json(['message' => $validator->errors()->first(), 'Status Code' => 400], 400);
+                }
+                if (!(Hash::check($request->get('current_password'), auth('api')->user()->password))) {
+                    return response()->json(['message' => 'Current password does not match', 'Status Code' => 400], 400);
+                }
+                if (strcmp($request->get('current_password'), $request->get('password')) == 0) {
+                    return response()->json(['message' => 'New Password cannot be same as your current password', 'Status Code' => 400], 400);
+                }
+                $user->password = Hash::make($request->password);
+            }
+
+            $user->save();
+            return response()->json(['message' => 'Data updated success', 'status_code' => 200]);
         } else {
             return response()->json(['error' => 'Fail! Account not found.', 'status_code' => 400]);
         }
