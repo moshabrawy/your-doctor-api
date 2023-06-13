@@ -142,7 +142,7 @@ class UserAuthController extends Controller
             'email' => 'required|email|exists:App\Models\User,email',
         ]);
         if ($validation->fails()) {
-            return response()->json(['status_code' => 400, 'error' => $validation->errors()]);
+            return response()->json(['status_code' => 400, 'error' => $validation->errors()->first()], 400);
         } else {
             $user = User::where('email', $request->email)->first();
             if ($user) {
@@ -161,7 +161,7 @@ class UserAuthController extends Controller
             'verification_code' => 'required|exists:App\Models\User,verification_code',
         ]);
         if ($validation->fails()) {
-            return response()->json(['status_code' => 400, 'error' => $validation->errors()]);
+            return response()->json(['status_code' => 400, 'error' => $validation->errors()->first()]);
         } else {
             $user = User::where('verification_code', $request->verification_code)->where(function ($query) {
                 $query->whereDate('updated_at', Carbon::now());
@@ -182,7 +182,7 @@ class UserAuthController extends Controller
             'password' => 'required|confirmed',
         ]);
         if ($validation->fails()) {
-            return response()->json(['status_code' => 400, 'error' => $validation->errors()]);
+            return response()->json(['status_code' => 400, 'error' => $validation->errors()->first()]);
         } else {
             $user = User::where('id', $request->user_id)->first();
             $user->password = Hash::make($request['password']);
