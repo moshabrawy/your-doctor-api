@@ -161,7 +161,7 @@ class UserAuthController extends Controller
             'verification_code' => 'required|exists:App\Models\User,verification_code',
         ]);
         if ($validation->fails()) {
-            return response()->json(['status_code' => 400, 'error' => $validation->errors()->first()]);
+            return response()->json(['status_code' => 400, 'error' => $validation->errors()->first()], 400);
         } else {
             $user = User::where('verification_code', $request->verification_code)->where(function ($query) {
                 $query->whereDate('updated_at', Carbon::now());
@@ -170,7 +170,7 @@ class UserAuthController extends Controller
             if ($user) {
                 return response()->json(['verification_code' => 'Valid', 'user_id' => $user->id, 'status_code' => 200]);
             } else {
-                return response()->json(['verification_code' => 'Invalid', 'status_code' => 200]);
+                return response()->json(['error' => 'Invalid', 'status_code' => 400], 400);
             }
         }
     }
@@ -182,7 +182,7 @@ class UserAuthController extends Controller
             'password' => 'required|confirmed',
         ]);
         if ($validation->fails()) {
-            return response()->json(['status_code' => 400, 'error' => $validation->errors()->first()]);
+            return response()->json(['status_code' => 400, 'error' => $validation->errors()->first()],400);
         } else {
             $user = User::where('id', $request->user_id)->first();
             $user->password = Hash::make($request['password']);
