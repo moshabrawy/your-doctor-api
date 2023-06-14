@@ -59,13 +59,13 @@ class UserInfoController extends Controller
                     'password' => 'required', 'confirmed',
                 ]);
                 if ($validator->fails()) {
-                    return response()->json(['message' => $validator->errors()->first(), 'Status Code' => 400], 400);
+                    return response()->json(['error' => $validator->errors()->first(), 'Status Code' => 400], 400);
                 }
                 if (!(Hash::check($request->get('current_password'), auth('api')->user()->password))) {
-                    return response()->json(['message' => 'Current password does not match', 'Status Code' => 400], 400);
+                    return response()->json(['error' => 'Current password does not match', 'Status Code' => 400], 400);
                 }
                 if (strcmp($request->get('current_password'), $request->get('password')) == 0) {
-                    return response()->json(['message' => 'New Password cannot be same as your current password', 'Status Code' => 400], 400);
+                    return response()->json(['error' => 'New Password cannot be same as your current password', 'Status Code' => 400], 400);
                 }
                 $user->password = Hash::make($request->password);
             }
