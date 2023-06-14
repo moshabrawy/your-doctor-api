@@ -32,7 +32,7 @@ class AddressController extends Controller
                 'country' => 'required'
             ]);
             if ($validation->fails()) {
-                return response()->json(['error' => $validation->errors(), 'status_code' => 400], 400);
+                return response()->json(['error' => $validation->errors()->first(), 'status_code' => 400], 400);
             } else {
                 Address::create([
                     "user_id" => auth('api')->user()->id,
@@ -57,7 +57,7 @@ class AddressController extends Controller
                 'country' => 'sometimes|required'
             ]);
             if ($validation->fails()) {
-                return response()->json(['error' => $validation->errors(), 'status_code' => 400], 400);
+                return response()->json(['error' => $validation->errors()->first(), 'status_code' => 400], 400);
             } else {
                 //Update User Address
                 $address = Address::where('user_id', auth('api')->user()->id)->where('id', $request->address_id)->first();
@@ -67,12 +67,12 @@ class AddressController extends Controller
                     $address->country = $request->country ?? $address->country;
                     $address->save();
                 } else {
-                    return response()->json(['error' => 'Address not found', 'status_code' => 400]);
+                    return response()->json(['error' => 'Address not found', 'status_code' => 400], 400);
                 }
                 return response()->json(['message' => 'Your Address updated success', 'status_code' => 200]);
             }
         } else {
-            return response()->json(['error' => 'Unauthorized! Your are not a doctor', 'status_code' => 401]);
+            return response()->json(['error' => 'Unauthorized! Your are not a doctor', 'status_code' => 401], 401);
         }
     }
 
@@ -81,18 +81,18 @@ class AddressController extends Controller
         if ($this->user_type == 'doctor') {
             $validation = Validator::make($request->all(), ['address_id' => 'required']);
             if ($validation->fails()) {
-                return response()->json(['error' => $validation->errors(), 'status_code' => 400], 400);
+                return response()->json(['error' => $validation->errors()->first(), 'status_code' => 400], 400);
             } else {
                 $address = Address::where('user_id', auth('api')->user()->id)->where('id', $request->address_id)->first();
                 if (!empty($address)) {
                     $address->delete();
                 } else {
-                    return response()->json(['error' => 'Address not found', 'status_code' => 400]);
+                    return response()->json(['error' => 'Address not found', 'status_code' => 400], 400);
                 }
-                return response()->json(['message' => 'Your Address Deleted success', 'status_code' => 200]);
+                return response()->json(['message' => 'Your Address Deleted success', 'status_code' => 200], 200);
             }
         } else {
-            return response()->json(['error' => 'Unauthorized! Your are not a doctor', 'status_code' => 401]);
+            return response()->json(['error' => 'Unauthorized! Your are not a doctor', 'status_code' => 401], 401);
         }
     }
 }
