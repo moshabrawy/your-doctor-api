@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Address;
 use App\Http\Resources\UserInfoResource;
+use App\Models\DoctorInfo;
+use App\Models\Specialty;
 use App\Models\User;
 use App\Traits\FilesTrait;
 use Carbon\Carbon;
@@ -35,6 +37,7 @@ class UserInfoController extends Controller
                 'phone' => 'sometimes|required|unique:users,phone,' . $user->id,
                 'gender' => ['sometimes', 'required', Rule::in(['male', 'female'])],
                 'birth_date' => 'sometimes|required',
+                'specialty_id' => 'sometimes|required|exists:App\Models\Specialty,id',
                 'avatar' => 'sometimes|required',
                 "avatar.*" => 'sometimes|base64mimes:jpg,png,jpeg|base64max:5128'
             ]);
@@ -51,29 +54,39 @@ class UserInfoController extends Controller
             $user->gender = $request->gender ?? $user->gender;
             $user->birth_date = $request->birth_date ?? $user->birth_date;
             $user->avatar = $request->has('avatar') ? $this->UploudImage($request->avatar, 'profile') : $user->avatar;
-
-            //Update User Password
-            if (isset($request->password)) {
-                $validator = Validator::make($request->all(), [
-                    'current_password' => 'required',
-                    'password' => 'required', 'confirmed',
-                ]);
-                if ($validator->fails()) {
-                    return response()->json(['error' => $validator->errors()->first(), 'Status Code' => 400], 400);
-                }
-                if (!(Hash::check($request->get('current_password'), auth('api')->user()->password))) {
-                    return response()->json(['error' => 'Current password does not match', 'Status Code' => 400], 400);
-                }
-                if (strcmp($request->get('current_password'), $request->get('password')) == 0) {
-                    return response()->json(['error' => 'New Password cannot be same as your current password', 'Status Code' => 400], 400);
-                }
-                $user->password = Hash::make($request->password);
-            }
-
             $user->save();
+            if ($user->user_type === "0" && $request->has('specialty_id')) {
+                DoctorInfo::where('user_id', $user->id)->update([
+                    'specialty_id' => $request->specialty_id
+                ]);
+            }
             return response()->json(['message' => 'Data updated success', 'status_code' => 200]);
         } else {
             return response()->json(['error' => 'Fail! Account not found.', 'status_code' => 400]);
         }
+    }
+
+    function update_user_password(Request $request)
+    {
+        $user = User::find(auth('api')->user()->id);
+        if (!$user) {
+            return response()->json(['error' => 'Fail! Account not found.', 'status_code' => 400]);
+        }
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required',
+            'password' => 'required|confirmed',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->first(), 'status_code' => 400], 400);
+        }
+        if (!(Hash::check($request->current_password, $user->password))) {
+            return response()->json(['error' => 'Current password does not match', 'status_code' => 400], 400);
+        }
+        if (strcmp($request->current_password, $request->password) == 0) {
+            return response()->json(['error' => 'New Password cannot be same as your current password', 'status_code' => 400], 400);
+        }
+        $user->password = Hash::make($request->password);
+        $user->save();
+        return response()->json(['message' => 'Password updated success', 'status_code' => 200], 200);
     }
 }

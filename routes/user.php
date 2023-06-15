@@ -28,6 +28,7 @@ Route::group(['middleware' => ['api', 'auth:api', 'userAuth']], function ($route
     //User Profile Endpoint
     Route::get('get_profile_data', [UserInfoController::class, 'get_profile_data']);
     Route::post('update_user_info', [UserInfoController::class, 'update_user_info']);
+    Route::post('update_user_password', [UserInfoController::class, 'update_user_password']);
 
     //Address Endpoint
     Route::post('add_new_address', [AddressController::class, 'add_new_address']);
