@@ -4,17 +4,13 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Address;
 use App\Http\Resources\UserInfoResource;
 use App\Models\DoctorInfo;
-use App\Models\Specialty;
 use App\Models\User;
 use App\Traits\FilesTrait;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Str;
 
 class UserInfoController extends Controller
 {
