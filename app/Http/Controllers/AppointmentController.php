@@ -87,7 +87,7 @@ class AppointmentController extends Controller
                 'slot_id' => $request->slot_id,
                 'user_id' => auth()->user()->id,
                 'doctor_id' => $request->doctor_id,
-                'day_date' => $request->booking_date
+                'day_date' => Carbon::parse($request->booking_date)->format('Y-m-d')
             ]);
             PatientDetail::create([
                 'appointment_id' => $appointment->id,
