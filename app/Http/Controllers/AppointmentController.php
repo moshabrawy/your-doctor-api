@@ -76,7 +76,7 @@ class AppointmentController extends Controller
             'disease_dec' => 'required',
         ]);
         if ($validation->fails()) {
-            return response()->json(['error' => $validation->errors(), 'status_code' => 400]);
+            return response()->json(['error' => $validation->errors()->first(), 'status_code' => 400]);
         } else {
             $slot = TimeSlot::find($request->slot_id);
             $booking_date = Carbon::parse($request->booking_date)->format('l');
