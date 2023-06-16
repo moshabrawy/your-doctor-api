@@ -26,7 +26,7 @@ class UserInfoResource extends JsonResource
             'gender' => $this->gender,
             'phone' => $this->phone,
             'birth_date' => Carbon::parse($this->birth_date)->format('Y-m-d'),
-            $this->mergeWhen($this->user_type !== "1", function () {
+            $this->mergeWhen($this->user_type == "0", function () {
                 return ["specialist" =>  $this->doctor_info->specialty->title];
                 return ["specialty_id" =>  $this->doctor_info->specialty_id];
             }),
