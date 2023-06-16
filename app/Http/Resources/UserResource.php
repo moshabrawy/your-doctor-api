@@ -16,7 +16,7 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_type' => $this->user_type === "1" ? 'User' : 'Doctor',
+            'user_type' => $this->user_type == 1 ? 'User' : 'Doctor',
         ];
     }
 }
