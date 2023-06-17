@@ -76,10 +76,10 @@ class AppointmentController extends Controller
             'disease_dec' => 'required',
         ]);
         if ($validation->fails()) {
-            return response()->json(['error' => $validation->errors()->first(), 'status_code' => 400]);
+            return response()->json(['error' => $validation->errors()->first(), 'status_code' => 400], 400);
         } else {
             $slot = TimeSlot::find($request->slot_id);
-            $booking_date = Carbon::parse($request->booking_date)->format('l');
+            $booking_date = Carbon::parse($request->booking_date)->format('Y-m-d');
             if ($booking_date != $slot->day_en) {
                 return response()->json(['error' => 'Wrong Booking Date', 'status_code' => 400], 400);
             }
