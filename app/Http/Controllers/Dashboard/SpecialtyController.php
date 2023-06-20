@@ -79,7 +79,7 @@ class SpecialtyController extends Controller
     public function search(Request $request)
     {
         $search = $request->get('search');
-        $allSpecialties = Specialty::where('name', 'like', '%' . $search . '%')->paginate(10);
+        $allSpecialties = Specialty::where('title', 'like', '%' . $search . '%')->paginate(10);
         return view('dashboard.specialties.manage', compact('allSpecialties'));
     }
 
