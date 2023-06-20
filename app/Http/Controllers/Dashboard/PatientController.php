@@ -88,8 +88,8 @@ class PatientController extends Controller
             $user->phone = $request->phone ?? $user->phone;
             if (!empty($request->password)) {
                 $request->validate([
-                    'password' => 'sometimes|required',
-                    'confirm_password' => 'sometimes|required|same:password'
+                    'password' => 'required',
+                    'confirm_password' => 'required|same:password'
                 ]);
                 $user->password = Hash::make($request->password);
             }

@@ -94,10 +94,10 @@ class DoctorController extends Controller
             $user->name = $request->name ?? $user->name;
             $user->email = $request->email ?? $user->email;
             $user->phone = $request->phone ?? $user->phone;
-            if (!empty($request->password)) {
+            if ($request->has('password')) {
                 $request->validate([
-                    'password' => 'sometimes|required',
-                    'confirm_password' => 'sometimes|required|same:password'
+                    'password' => 'required',
+                    'confirm_password' => 'required|same:password'
                 ]);
                 $user->password = Hash::make($request->password);
             }
